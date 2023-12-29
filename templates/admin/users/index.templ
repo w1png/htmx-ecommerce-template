@@ -1,0 +1,49 @@
+package admin_users_templates
+
+import "github.com/w1png/htmx-template/models"
+import "github.com/w1png/htmx-template/templates/admin"
+import "github.com/w1png/htmx-template/templates/components"
+
+script scrollToAddUserForm() {
+  document.getElementById("add_edit_user_form").scrollIntoView({
+    behavior: "smooth",
+  })
+}
+
+templ IndexApi(users []*models.User, next_page int) {
+	<div
+		class="container mx-auto p-8 mt-16 sample-transition flex flex-col-reverse lg:flex-row gap-4 items-center lg:items-start"
+		hx-ext="response-targets"
+		id="swappable_content"
+	>
+		<div class="w-full lg:w-2/3 flex flex-col gap-2 items-center lg:items-start">
+			<div class="h-16 w-[18rem]">
+				<input
+					class="search-input w-full"
+					name="search_username"
+					placeholder="Имя пользователя"
+					id="search_username"
+					hx-post="/admin/api/users/search"
+					hx-trigger="input changed delay:200ms, search_users"
+					hx-target="#user_list"
+				/>
+			</div>
+			<div class="flex flex-col w-full">
+				<div class="grow flex flex-col gap-2" id="user_list">
+					@Users(users, next_page)
+				</div>
+				<div class="flex flex-row">
+					@components.Loading("pagination_loading")
+					<p class="text-sm text-red-400"></p>
+				</div>
+			</div>
+		</div>
+		@AddUserForm()
+	</div>
+}
+
+templ Index(ctx context.Context, users []*models.User, next_page int) {
+	@admin_templates.Base(ctx) {
+		@IndexApi(users, next_page)
+	}
+}

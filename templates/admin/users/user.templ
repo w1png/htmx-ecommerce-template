@@ -1,0 +1,88 @@
+package admin_users_templates
+
+import "github.com/w1png/htmx-template/models"
+import "github.com/w1png/htmx-template/templates/components"
+import "fmt"
+import "github.com/w1png/htmx-template/templates/scripts"
+
+templ delete_user_confirmation_modal(user_id uint) {
+	@components.Modal(get_modal_id(user_id)) {
+		<div class="p-4 flex flex-col items-center justify-center gap-4">
+			<p>
+				Вы уверены, что хотите удалить пользователя?
+			</p>
+			<div class="flex flex-row gap-2 justify-center">
+				<button
+					class="admin-delete"
+					hx-delete={ fmt.Sprintf("/admin/api/users/%d", user_id) }
+					hx-swap="outerHTML"
+					onclick={ scripts.CloseModal(get_modal_id(user_id)) }
+				>Удалить</button>
+				<button class="admin-submit" onclick={ scripts.CloseModal(get_modal_id(user_id)) }>
+					Отмена
+				</button>
+			</div>
+		</div>
+	}
+}
+
+func get_modal_id(user_id uint) string {
+	return fmt.Sprintf("delete_user_confirmation_%d", user_id)
+}
+
+templ bare_user(user *models.User, next_page int, is_last bool) {
+	<div
+		class="flex flex-row h-16 w-full items-center rounded-xl border-2 px-4"
+		hx-target-error={ fmt.Sprintf("#user_error_%d", user.ID) }
+		hx-indicator={ fmt.Sprintf("#user_loading_%d", user.ID) }
+		hx-target="this"
+		hx-swap="outerHTML"
+		hx-get={ fmt.Sprintf("/admin/api/users/%d", user.ID) }
+		hx-trigger={ fmt.Sprintf("user_saved_%d from:body", user.ID) }
+	>
+		@delete_user_confirmation_modal(user.ID)
+		if is_last {
+			<span
+				class="opacity-0 h-0 w-0"
+				hx-get={ fmt.Sprintf("/admin/api/users/page/%d", next_page) }
+				hx-target="#user_list"
+				hx-target-error="#pagination_error"
+				hx-swap="beforeend"
+				hx-trigger="revealed"
+				hx-indicator="#pagination_loading"
+			></span>
+		}
+		@components.Loading(fmt.Sprintf("user_loading_%d", user.ID))
+		<p class={ "text-xl w-1/2 truncate", templ.KV("underline text-red-400", user.IsAdmin) }>{ user.Username }</p>
+		<p class="text-sm text-red-400" id={ fmt.Sprintf("user_error_%d", user.ID) }></p>
+		<div
+			class="grow flex flex-row items-center justify-end gap-2"
+			hx-target-error={ fmt.Sprintf("#user_error_%d", user.ID) }
+			hx-indicator={ fmt.Sprintf("#user_loading_%d", user.ID) }
+		>
+			<button
+				class="admin-submit"
+				hx-get={ fmt.Sprintf("/admin/api/users/%d/edit", user.ID) }
+				hx-swap="outerHTML"
+				hx-target="#add_edit_user_form"
+				onclick={ scrollToAddUserForm() }
+				data-loading-disable
+			>
+				<p class="hidden lg:flex">Редактировать</p>
+				<img class="block lg:hidden h-4 aspect-square" src="/static/edit.svg" alt="Редактировать"/>
+			</button>
+			<button class="admin-delete" onclick={ scripts.OpenModal(get_modal_id(user.ID)) }>
+				<p class="hidden lg:flex">Удалить</p>
+				<img class="block lg:hidden h-4 aspect-square" src="/static/delete.svg" alt="Удалить"/>
+			</button>
+		</div>
+	</div>
+}
+
+templ User(user *models.User) {
+	@bare_user(user, -1, false)
+}
+
+templ lastUser(user *models.User, next_page int) {
+	@bare_user(user, next_page, true)
+}

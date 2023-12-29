@@ -1,0 +1,10 @@
+package components
+
+templ AdminCheckbox(id, name, value string, is_checked bool) {
+	if is_checked {
+		<input class="hidden" type="checkbox" name={ name } id={ id } value={ value } checked/>
+	} else {
+		<input class="hidden" type="checkbox" name={ name } id={ id } value={ value }/>
+	}
+	<label class="admin-checkbox" for={ id }>Администратор</label>
+}

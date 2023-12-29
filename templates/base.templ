@@ -1,0 +1,22 @@
+package templates 
+
+templ Base(ctx context.Context) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta http-equiv="x-ua-compatible" content="ie=edge"/>
+			<title>website name</title>
+			<link rel="icon" type="image/png" sizes="32x32" href="/static/logo.png"/>
+			<link rel="stylesheet" href="/static/output.css"/>
+			<script src="/static/javascript/htmx.js"></script>
+			<script src="/static/javascript/loading-states.js"></script>
+			<script src="/static/javascript/response-targets.js"></script>
+			<script src="/static/javascript/utils.js"></script>
+		</head>
+		<body hx-ext="response-targets loading-states">
+			{ children... }
+		</body>
+	</html>
+}

@@ -1,0 +1,54 @@
+package admin_users_templates
+
+import "github.com/w1png/htmx-template/models"
+import "github.com/w1png/htmx-template/templates/components"
+import "fmt"
+
+templ UserEdit(user *models.User) {
+	<form
+		class="w-[18rem] border-2 rounded-xl p-4 flex flex-col gap-2"
+		id="add_edit_user_form"
+		hx-indicator="#add_user_loading"
+		hx-target="this"
+		hx-target-error="#add_user_error"
+		hx-swap="outerHTML"
+	>
+		<p class="text-xl">Редактировать пользователя</p>
+		<input
+			class="admin-input h-10 w-full"
+			value={ user.Username }
+			type="text"
+			autocomplete="username"
+			name="username"
+			id="username"
+			placeholder="Имя пользователя"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="password"
+			autocomplete="new-password"
+			name="password"
+			id="password"
+			placeholder="Пароль"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="password"
+			name="password_repeat"
+			id="password_repeat"
+			placeholder="Повтор пароля"
+			required
+		/>
+		@components.AdminCheckbox("is_admin", "is_admin", "true", user.IsAdmin)
+		<p class="text-sm text-red-400" id="add_user_error"></p>
+		@components.Loading("add_user_loading")
+		<button class="admin-submit" type="submit" hx-put={ fmt.Sprintf("/admin/api/users/%d", user.ID) } data-loading-disable>
+			Сохранить
+		</button>
+		<button class="admin-delete" type="button" hx-get="/admin/api/users/add" data-loading-disable>
+			Отмена
+		</button>
+	</form>
+}

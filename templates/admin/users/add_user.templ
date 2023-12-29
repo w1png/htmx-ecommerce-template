@@ -1,0 +1,50 @@
+package admin_users_templates
+
+import "github.com/w1png/htmx-template/templates/components"
+
+templ AddUserForm() {
+	<form
+		class="h-fit w-[18rem] border-2 rounded-xl p-4 flex flex-col gap-2"
+		id="add_edit_user_form"
+		hx-indicator="#add_user_loading"
+		hx-target="#user_list"
+		hx-target-error="#add_user_error"
+		hx-post="/admin/api/users"
+		hx-swap="afterbegin"
+		hx-on::after-request="ClearFormOnSubmit(event, this)"
+	>
+		<p class="text-xl">Добавить администратора</p>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			autocomplete="username"
+			name="username"
+			id="username"
+			placeholder="Имя пользователя"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="password"
+			autocomplete="new-password"
+			name="password"
+			id="password"
+			placeholder="Пароль"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="password"
+			name="password_repeat"
+			id="password_repeat"
+			placeholder="Повтор пароля"
+			required
+		/>
+		@components.AdminCheckbox("is_admin", "is_admin", "true", false)
+		<p class="text-sm text-red-400" id="add_user_error"></p>
+		@components.Loading("add_user_loading")
+		<button class="admin-submit h-10 w-full" type="submit" data-loading-disable>
+			Добавить
+		</button>
+	</form>
+}

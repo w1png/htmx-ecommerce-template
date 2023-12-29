@@ -1,0 +1,21 @@
+package scripts
+
+script OpenModal(id string) {
+	const modal = document.getElementById(id)
+	const overlay = document.getElementById("overlay_" + id)
+
+	document.body.style.overflow = "hidden"
+
+	overlay.dataset.open = true
+	modal.dataset.open = true
+}
+
+script CloseModal(id string) {
+	const modal = document.getElementById(id)
+	const overlay = document.getElementById("overlay_" + id)
+
+	document.body.style.overflow = "auto"
+
+	overlay.dataset.open = false
+	modal.dataset.open = false
+}

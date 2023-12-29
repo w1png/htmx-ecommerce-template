@@ -1,0 +1,51 @@
+package user_templates
+
+templ Login(ctx context.Context) {
+	@Base(ctx) {
+		@LoginApi()
+	}
+}
+
+templ LoginApi() {
+	<div class="container mx-auto h-screen p-8 mt-16 sample-transition" id="swappable_content">
+		<div class="w-full h-full border-2 rounded-xl justify-center items-center flex flex-col">
+			<form
+				class="flex flex-col"
+				hx-post="/api/admin_login"
+				hx-replace-url="/admin"
+				hx-swap="outerHTML transition:true"
+				hx-target="body"
+				hx-target-error="#error"
+			>
+				<div class="flex flex-col">
+					<label for="username">Username</label>
+					<input
+						class="py-2 px-4 rounded-xl border-2"
+						type="text"
+						name="username"
+						id="username"
+						autocomplete="username"
+						required
+					/>
+				</div>
+				<div class="flex flex-col">
+					<label for="password">Password</label>
+					<input
+						class="py-2 px-4 rounded-xl border-2"
+						type="password"
+						name="password"
+						id="password"
+						autocomplete="current-password"
+						required
+					/>
+				</div>
+				<p class="text-red-400 text-sm" id="error"></p>
+				<button
+					class="text-2xl py-2 px-4 rounded-xl border-2 mt-4 hover:text-white hover:bg-gray-200 transition-colors ease-in-out duration-300"
+				>
+					Login
+				</button>
+			</form>
+		</div>
+	</div>
+}

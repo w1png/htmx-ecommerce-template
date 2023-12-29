@@ -1,0 +1,13 @@
+package admin_users_templates
+
+import "github.com/w1png/htmx-template/models"
+
+templ Users(users []*models.User, next_page int) {
+	for i, user := range users {
+		if len(users) == models.USERS_PER_PAGE && i == len(users) - 1 && next_page != -1 {
+			@lastUser(user, next_page)
+		} else {
+			@User(user)
+		}
+	}
+}
