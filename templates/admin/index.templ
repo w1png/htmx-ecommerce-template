@@ -8,8 +8,8 @@ templ IndexApi() {
 	</div>
 }
 
-templ Index(ctx context.Context) {
-	@Base(ctx) {
+templ Index() {
+	@Base() {
 		@IndexApi()
 	}
 }

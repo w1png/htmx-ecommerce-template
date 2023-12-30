@@ -42,8 +42,8 @@ templ IndexApi(users []*models.User, next_page int) {
 	</div>
 }
 
-templ Index(ctx context.Context, users []*models.User, next_page int) {
-	@admin_templates.Base(ctx) {
+templ Index(users []*models.User, next_page int) {
+	@admin_templates.Base() {
 		@IndexApi(users, next_page)
 	}
 }

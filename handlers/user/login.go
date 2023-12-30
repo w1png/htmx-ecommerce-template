@@ -29,7 +29,7 @@ func LoginPageHandler(c echo.Context) error {
 		return c.Redirect(http.StatusFound, "/admin")
 	}
 
-	return utils.Render(c, user_templates.Login(c.Request().Context()))
+	return utils.Render(c, user_templates.Login())
 }
 
 func PostLoginHandler(c echo.Context) error {

@@ -41,7 +41,7 @@ func UserIndexHandler(c echo.Context) error {
 		return err
 	}
 
-	return utils.Render(c, admin_users_templates.Index(c.Request().Context(), users, next_page))
+	return utils.Render(c, admin_users_templates.Index(users, next_page))
 }
 
 func UserIndexApiHandler(c echo.Context) error {

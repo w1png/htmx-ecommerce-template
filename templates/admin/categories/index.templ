@@ -43,7 +43,7 @@ templ IndexApi(categories []*models.Category, next_page int) {
 }
 
 templ Index(categories []*models.Category, next_page int) {
-	@admin_templates.Base(nil) {
+	@admin_templates.Base() {
 		@IndexApi(categories, next_page)
 	}
 }

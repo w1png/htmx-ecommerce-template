@@ -7,7 +7,7 @@ import (
 )
 
 func AdminIndexHandler(c echo.Context) error {
-	return utils.Render(c, admin_templates.Index(c.Request().Context()))
+	return utils.Render(c, admin_templates.Index())
 }
 
 func AdminApiIndexHandler(c echo.Context) error {
