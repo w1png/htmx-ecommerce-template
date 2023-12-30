@@ -83,6 +83,8 @@ func (s *HTTPServer) gatherAdminApiRoutes(g *echo.Group) {
 	api_group.GET("/categories/add", admin_handlers.GetAddCategoryHandler)
 	api_group.DELETE("/categories/:id", admin_handlers.DeleteCategoryHandler)
 	api_group.PUT("/categories/:id", admin_handlers.PutCategoryHandler)
+	api_group.GET("/categories/page/:page", admin_handlers.GetCategoriesPage)
+	api_group.POST("/categories/search", admin_handlers.SearchCategoriesHandler)
 
 	api_group.POST("/categories", admin_handlers.PostCategoryHandler)
 }

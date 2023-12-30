@@ -25,7 +25,7 @@ templ IndexApi(categories []*models.Category, next_page int) {
 					id="search_name"
 					hx-post="/admin/api/categories/search"
 					hx-trigger="input changed delay:200ms, search_categories"
-					hx-target="#categories_list"
+					hx-target="#category_list"
 				/>
 			</div>
 			<div class="flex flex-col w-full">

@@ -24,7 +24,8 @@ type Storage interface {
 	GetAllCategories() ([]*models.Category, error)
 	GetCategories(offset, limit int) ([]*models.Category, error)
 	GetCategoriesCount() (int, error)
-	GetCategoryByNameFuzzy(name string) (*models.Category, error)
+	GetAllCategoriesByNameFuzzy(name string) ([]*models.Category, error)
+	GetCategoriesByNameFuzzy(name string, offset, limit int) ([]*models.Category, error)
 	UpdateCategory(category *models.Category) error
 	DeleteCategoryById(id uint) error
 }

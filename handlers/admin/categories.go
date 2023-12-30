@@ -2,7 +2,6 @@ package admin_handlers
 
 import (
 	"fmt"
-	"math"
 	"net/http"
 	"reflect"
 	"strconv"
@@ -16,27 +15,13 @@ import (
 	"github.com/w1png/htmx-template/utils"
 )
 
-func getNextCategoriesPage(page int) (int, error) {
-	categories_count, err := storage.StorageInstance.GetCategoriesCount()
-	if err != nil {
-		return -1, err
-	}
-
-	total_pages := int(math.Ceil(float64(categories_count) / float64(models.CATEGORIES_PER_PAGE)))
-	if total_pages <= page {
-		return -1, nil
-	}
-
-	return page + 1, nil
-}
-
 func CategoriesIndexHandler(c echo.Context) error {
 	categories, err := storage.StorageInstance.GetCategories(utils.GetOffsetAndLimit(1, models.CATEGORIES_PER_PAGE))
 	if err != nil {
 		return err
 	}
 
-	next_page, err := getNextCategoriesPage(1)
+	next_page, err := utils.GetNextPage(1, storage.StorageInstance.GetCategoriesCount, models.CATEGORIES_PER_PAGE)
 	if err != nil {
 		return err
 	}
@@ -246,4 +231,49 @@ func PutCategoryHandler(c echo.Context) error {
 	c.Response().Header().Del("HX-Reswap")
 	c.Response().Header().Set("HX-Trigger", fmt.Sprintf("category_saved_%d", category.ID))
 	return utils.Render(c, categories_admin_templates.AddCategoryForm(categories))
+}
+
+func GetCategoriesPage(c echo.Context) error {
+	page, err := strconv.Atoi(c.Param("page"))
+	if err != nil {
+		log.Error(err)
+		return c.String(http.StatusBadRequest, "Неверный запрос")
+	}
+
+	categories, err := storage.StorageInstance.GetCategories(utils.GetOffsetAndLimit(page, models.CATEGORIES_PER_PAGE))
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Внутренняя ошибка сервера")
+	}
+
+	next_page, err := utils.GetNextPage(page, storage.StorageInstance.GetCategoriesCount, models.CATEGORIES_PER_PAGE)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Внутренняя ошибка сервера")
+	}
+
+	return utils.Render(c, categories_admin_templates.Categories(categories, next_page))
+}
+
+func SearchCategoriesHandler(c echo.Context) error {
+	if err := c.Request().ParseForm(); err != nil {
+		return c.String(http.StatusBadRequest, "Неверный запрос")
+	}
+
+	name := c.FormValue("search_name")
+	var categories []*models.Category
+	var err error
+	if name != "" {
+		categories, err = storage.StorageInstance.GetCategoriesByNameFuzzy(name, 0, models.CATEGORIES_PER_PAGE)
+		if err != nil {
+			return c.String(http.StatusInternalServerError, "Внутренняя ошибка сервера")
+		}
+
+		return utils.Render(c, categories_admin_templates.Categories(categories, -1))
+
+	}
+	categories, err = storage.StorageInstance.GetCategories(utils.GetOffsetAndLimit(1, models.CATEGORIES_PER_PAGE))
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Внутренняя ошибка сервера")
+	}
+
+	return utils.Render(c, categories_admin_templates.Categories(categories, 2))
 }

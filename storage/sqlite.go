@@ -191,16 +191,22 @@ func (s *SqliteStorage) GetCategoriesCount() (int, error) {
 	return int(count), nil
 }
 
-func (s *SqliteStorage) GetCategoryByNameFuzzy(name string) (*models.Category, error) {
-	var category models.Category
-	if err := s.DB.Where("name LIKE ?", fmt.Sprintf("%%%s%%", name)).First(&category).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil, errors.NewObjectNotFoundError(fmt.Sprintf("Category with name: %s", name))
-		}
+func (s *SqliteStorage) GetAllCategoriesByNameFuzzy(name string) ([]*models.Category, error) {
+	var categories []*models.Category
+	if err := s.DB.Where("name LIKE ?", fmt.Sprintf("%%%s%%", name)).Find(&categories).Error; err != nil {
 		return nil, err
 	}
 
-	return &category, nil
+	return categories, nil
+}
+
+func (s *SqliteStorage) GetCategoriesByNameFuzzy(name string, offset, limit int) ([]*models.Category, error) {
+	var categories []*models.Category
+	if err := s.DB.Where("name LIKE ?", fmt.Sprintf("%%%s%%", name)).Offset(offset).Limit(limit).Find(&categories).Error; err != nil {
+		return nil, err
+	}
+
+	return categories, nil
 }
 
 func (s *SqliteStorage) UpdateCategory(category *models.Category) error {

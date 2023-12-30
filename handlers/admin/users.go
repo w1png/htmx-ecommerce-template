@@ -2,7 +2,6 @@ package admin_handlers
 
 import (
 	"fmt"
-	"math"
 	"net/http"
 	"reflect"
 	"strconv"
@@ -16,27 +15,13 @@ import (
 	"github.com/w1png/htmx-template/utils"
 )
 
-func getNextUsersPage(page int) (int, error) {
-	users_count, err := storage.StorageInstance.GetUsersCount()
-	if err != nil {
-		return -1, err
-	}
-
-	total_pages := int(math.Ceil(float64(users_count) / float64(models.USERS_PER_PAGE)))
-	if total_pages <= page {
-		return -1, nil
-	}
-
-	return page + 1, nil
-}
-
 func UserIndexHandler(c echo.Context) error {
 	users, err := storage.StorageInstance.GetUsers(utils.GetOffsetAndLimit(1, models.USERS_PER_PAGE))
 	if err != nil {
 		return err
 	}
 
-	next_page, err := getNextUsersPage(1)
+	next_page, err := utils.GetNextPage(1, storage.StorageInstance.GetUsersCount, models.USERS_PER_PAGE)
 	if err != nil {
 		return err
 	}
@@ -50,7 +35,7 @@ func UserIndexApiHandler(c echo.Context) error {
 		return err
 	}
 
-	next_page, err := getNextUsersPage(1)
+	next_page, err := utils.GetNextPage(1, storage.StorageInstance.GetUsersCount, models.USERS_PER_PAGE)
 	if err != nil {
 		return err
 	}
@@ -244,12 +229,12 @@ func SearchUsersHandler(c echo.Context) error {
 			return err
 		}
 	} else {
-		if users, err = storage.StorageInstance.GetAllUsersByUsernameFuzzy(username); err != nil {
+		if users, err = storage.StorageInstance.GetUsersByUsernameFuzzy(username, 0, models.USERS_PER_PAGE); err != nil {
 			return err
 		}
 	}
 
-	return utils.Render(c, admin_users_templates.Users(users[:models.USERS_PER_PAGE], -1))
+	return utils.Render(c, admin_users_templates.Users(users, -1))
 }
 
 func GetUsersPage(c echo.Context) error {
@@ -263,7 +248,7 @@ func GetUsersPage(c echo.Context) error {
 		return err
 	}
 
-	next_page, err := getNextUsersPage(page)
+	next_page, err := utils.GetNextPage(page, storage.StorageInstance.GetUsersCount, models.USERS_PER_PAGE)
 	if err != nil {
 		return err
 	}

@@ -11,7 +11,7 @@ import (
 
 func GenerateRandomString() string {
 	hash_input := strconv.Itoa(rand.Intn(9999)) + strconv.Itoa(int(time.Now().Unix())) + strconv.Itoa(os.Getppid())
-	hash := fmt.Sprintf("%x", sha256.Sum256([]byte(hash_input)))
+	hash := fmt.Sprintf("%x", sha256.Sum256([]byte(hash_input)))[16:]
 
 	return hash
 }
