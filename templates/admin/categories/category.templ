@@ -1,0 +1,77 @@
+package categories_admin_templates 
+
+import "github.com/w1png/htmx-template/templates/components"
+import "fmt"
+import "github.com/w1png/htmx-template/templates/scripts"
+import "github.com/w1png/htmx-template/models"
+
+templ delete_category_confirmation_modal(category_id uint) {
+	@components.Modal(get_modal_id(category_id)) {
+		<div class="p-4 flex flex-col items-center justify-center gap-4">
+			<p>
+				Вы уверены, что хотите удалить категорию?
+			</p>
+			<div class="flex flex-row gap-2 justify-center">
+				<button
+					class="admin-delete"
+					hx-delete={ fmt.Sprintf("/admin/api/categories/%d", category_id) }
+					hx-swap="outerHTML"
+					onclick={ scripts.CloseModal(get_modal_id(category_id)) }
+				>Удалить</button>
+				<button class="admin-submit" onclick={ scripts.CloseModal(get_modal_id(category_id)) }>
+					Отмена
+				</button>
+			</div>
+		</div>
+	}
+}
+
+func get_modal_id(category_id uint) string {
+	return fmt.Sprintf("delete_category_confirmation_%d", category_id)
+}
+
+templ bare_category(category *models.Category, next_page int, is_last bool) {
+	<div
+		class="flex flex-row h-16 w-full items-center rounded-xl border-2 px-4"
+		hx-target-error={ fmt.Sprintf("#category_error_%d", category.ID) }
+		hx-indicator={ fmt.Sprintf("#category_loading_%d", category.ID) }
+		hx-target="this"
+		hx-swap="outerHTML"
+		hx-get={ fmt.Sprintf("/admin/api/categories/%d", category.ID) }
+		hx-trigger={ fmt.Sprintf("category_saved_%d from:body", category.ID) }
+	>
+		@delete_category_confirmation_modal(category.ID)
+		if is_last {
+			<span
+				class="opacity-0 h-0 w-0"
+				hx-get={ fmt.Sprintf("/admin/api/categories/page/%d", next_page) }
+				hx-target="#category_list"
+				hx-target-error="#pagination_error"
+				hx-swap="beforeend"
+				hx-trigger="revealed"
+				hx-indicator="#pagination_loading"
+			></span>
+		}
+		<div class="flex flex-row gap-2 w-1/2 items-center">
+			<img class="h-[1.25rem] w-[1.25rem]" src={ fmt.Sprintf("/static/images/%s", category.ImagePath) }/>
+			<p class="w-[calc(100%-2.5rem)] text-xl truncate">{ category.Name }</p>
+		</div>
+		@components.Loading(fmt.Sprintf("category_loading_%d", category.ID))
+		@components.AdminEditDeleteButtons(
+		"#add_edit_category_form",
+		fmt.Sprintf("#category_error_%d", category.ID),
+		fmt.Sprintf("#category_loading_%d", category.ID),
+		fmt.Sprintf("/admin/api/categories/%d/edit", category.ID),
+		get_modal_id(category.ID),
+		scrollToAddCategoryForm(),
+		)
+	</div>
+}
+
+templ Category(category *models.Category) {
+	@bare_category(category, -1, false)
+}
+
+templ lastCategory(category *models.Category, next_page int) {
+	@bare_category(category, next_page, true)
+}

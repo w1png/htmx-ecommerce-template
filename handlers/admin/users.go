@@ -16,7 +16,7 @@ import (
 	"github.com/w1png/htmx-template/utils"
 )
 
-func getNextPage(page int) (int, error) {
+func getNextUsersPage(page int) (int, error) {
 	users_count, err := storage.StorageInstance.GetUsersCount()
 	if err != nil {
 		return -1, err
@@ -30,17 +30,13 @@ func getNextPage(page int) (int, error) {
 	return page + 1, nil
 }
 
-func getOffsetAndLimit(page int) (int, int) {
-	return models.USERS_PER_PAGE * (page - 1), models.USERS_PER_PAGE
-}
-
 func UserIndexHandler(c echo.Context) error {
-	users, err := storage.StorageInstance.GetUsers(getOffsetAndLimit(1))
+	users, err := storage.StorageInstance.GetUsers(utils.GetOffsetAndLimit(1, models.USERS_PER_PAGE))
 	if err != nil {
 		return err
 	}
 
-	next_page, err := getNextPage(1)
+	next_page, err := getNextUsersPage(1)
 	if err != nil {
 		return err
 	}
@@ -54,7 +50,7 @@ func UserIndexApiHandler(c echo.Context) error {
 		return err
 	}
 
-	next_page, err := getNextPage(1)
+	next_page, err := getNextUsersPage(1)
 	if err != nil {
 		return err
 	}
@@ -253,7 +249,7 @@ func SearchUsersHandler(c echo.Context) error {
 		}
 	}
 
-	return utils.Render(c, admin_users_templates.Users(users, -1))
+	return utils.Render(c, admin_users_templates.Users(users[:models.USERS_PER_PAGE], -1))
 }
 
 func GetUsersPage(c echo.Context) error {
@@ -262,12 +258,12 @@ func GetUsersPage(c echo.Context) error {
 		return err
 	}
 
-	users, err := storage.StorageInstance.GetUsers(getOffsetAndLimit(page))
+	users, err := storage.StorageInstance.GetUsers(utils.GetOffsetAndLimit(page, models.USERS_PER_PAGE))
 	if err != nil {
 		return err
 	}
 
-	next_page, err := getNextPage(page)
+	next_page, err := getNextUsersPage(page)
 	if err != nil {
 		return err
 	}

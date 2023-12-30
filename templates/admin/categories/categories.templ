@@ -1,0 +1,16 @@
+package categories_admin_templates
+
+import "github.com/w1png/htmx-template/models"
+
+templ Categories(categories []*models.Category, next_page int) {
+	if len(categories) == 0 {
+		<p class="text-center">Категории отсутствуют</p>
+	}
+	for i, category := range categories {
+		if len(categories) == models.USERS_PER_PAGE && i == len(categories) - 1 && next_page != -1 {
+			@lastCategory(category, next_page)
+		} else {
+			@Category(category)
+		}
+	}
+}

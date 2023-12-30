@@ -1,0 +1,68 @@
+package categories_admin_templates
+
+import "github.com/w1png/htmx-template/models"
+import "github.com/w1png/htmx-template/templates/components"
+import "fmt"
+
+templ CategoryEdit(category *models.Category, categories []*models.Category) {
+	<form
+		class="h-fit w-[18rem] border-2 rounded-xl p-4 flex flex-col gap-2"
+		id="add_edit_category_form"
+		hx-indicator="#add_category_loading"
+		hx-target="this"
+		hx-target-error="#add_category_error"
+		hx-put={ fmt.Sprintf("/admin/api/categories/%d", category.ID) }
+		hx-swap="outerHTML"
+		hx-encoding="multipart/form-data"
+		hx-on::after-request="ResetImageAndFormOnSubmit(event, this)"
+	>
+		<p class="text-xl">Добавить категорию</p>
+		@components.AdminImageInput(fmt.Sprintf("/static/images/%s", category.ImagePath))
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="name"
+			id="name"
+			value={ category.Name }
+			placeholder="Название"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="slug"
+			id="slug"
+			value={ category.Slug }
+			placeholder="Ссылка"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="tags"
+			id="tags"
+			value={ category.Tags }
+			placeholder="Теги"
+			required
+		/>
+		<select
+			class="admin-input h-10 w-full appearance-none"
+			name="parent"
+			id="parent"
+		>
+			<option value="0">Нет</option>
+			for _, category := range categories {
+				<option value={ fmt.Sprintf("%d", category.ID) } selected?={ category.ParentId == category.ID }>{ category.Name }</option>
+			}
+		</select>
+		@components.AdminCheckbox("is_enabled", "is_enabled", "true", category.IsEnabled)
+		<p class="text-sm text-red-400" id="add_category_error"></p>
+		@components.Loading("add_category_loading")
+		<button class="admin-submit h-10 w-full" type="submit" data-loading-disable>
+			Сохранить
+		</button>
+		<button class="admin-delete" type="button" hx-get="/admin/api/categories/add" data-loading-disable>
+			Отмена
+		</button>
+	</form>
+}

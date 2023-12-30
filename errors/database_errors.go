@@ -71,3 +71,17 @@ func NewMainAdminDeletionError(err string) *MainAdminDeletionError {
 func (e *MainAdminDeletionError) Error() string {
 	return fmt.Sprintf("Main admin deletion error: %s", e.Err)
 }
+
+type SlugNotUniqueError struct {
+	Slug string
+}
+
+func NewSlugNotUniqueError(slug string) *SlugNotUniqueError {
+	return &SlugNotUniqueError{
+		Slug: slug,
+	}
+}
+
+func (e *SlugNotUniqueError) Error() string {
+	return fmt.Sprintf("Slug not unique: %s", e.Slug)
+}

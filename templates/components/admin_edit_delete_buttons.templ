@@ -1,0 +1,27 @@
+package components
+
+import "github.com/w1png/htmx-template/templates/scripts"
+
+templ AdminEditDeleteButtons(hx_target, hx_target_error_id, hx_indicator_id, hx_get_edit_form_url, modal_id string, scroll_function templ.ComponentScript) {
+	<div
+		class="grow flex flex-row items-center justify-end gap-2"
+		hx-target-error={ hx_target_error_id }
+		hx-indicator={ hx_indicator_id }
+	>
+		<button
+			class="admin-submit"
+			hx-get={ hx_get_edit_form_url }
+			hx-swap="outerHTML"
+			hx-target={ hx_target }
+			onclick={ scroll_function }
+			data-loading-disable
+		>
+			<p class="hidden lg:flex">Редактировать</p>
+			<img class="block lg:hidden h-4 aspect-square" src="/static/edit.svg" alt="Редактировать"/>
+		</button>
+		<button class="admin-delete" onclick={ scripts.OpenModal(modal_id) }>
+			<p class="hidden lg:flex">Удалить</p>
+			<img class="block lg:hidden h-4 aspect-square" src="/static/delete.svg" alt="Удалить"/>
+		</button>
+	</div>
+}

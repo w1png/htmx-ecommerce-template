@@ -5,4 +5,5 @@ then
 fi
 
 find . -name "*.go" -exec sed -i '' -e "s/htmx-template/$1/g" {} \;
+find . -name "*.templ" -exec sed -i '' -e "s/htmx-template/$1/g" {} \;
 sed -i '' -e "s/htmx-template/$1/g" go.mod

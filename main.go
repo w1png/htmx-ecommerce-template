@@ -8,6 +8,7 @@ import (
 	"github.com/w1png/htmx-template/errors"
 	"github.com/w1png/htmx-template/models"
 	"github.com/w1png/htmx-template/storage"
+	"github.com/w1png/htmx-template/utils"
 )
 
 func createDefaultAdmin() error {
@@ -34,6 +35,10 @@ func main() {
 	}
 
 	if err := createDefaultAdmin(); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := utils.CreateImagesFolderIfNotExists(); err != nil {
 		log.Fatal(err)
 	}
 

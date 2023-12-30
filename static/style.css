@@ -3,205 +3,205 @@
 @tailwind utilities;
 
 body {
-  scroll-behavior: smooth;
+scroll-behavior: smooth;
 }
 
 .htmx-indicator {
-  display: none;
-  opacity: 0;
-  transition: opacity 500ms ease-in;
+display: none;
+opacity: 0;
+transition: opacity 500ms ease-in;
 }
 .htmx-request .htmx-indicator {
-  display: block;
-  opacity: 1;
+display: block;
+opacity: 1;
 }
 .htmx-request.htmx-indicator {
-  display: block;
-  opacity: 1;
+display: block;
+opacity: 1;
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
+from {
+opacity: 0;
+}
 }
 
 @keyframes fade-out {
-  to {
-    opacity: 0;
-  }
+to {
+opacity: 0;
+}
 }
 
 @keyframes slide-from-right {
-  from {
-    transform: scale(0.5);
-  }
+from {
+transform: scale(0.5);
+}
 }
 
 @keyframes slide-to-left {
-  to {
-    transform: scale(0.5);
-  }
+to {
+transform: scale(0.5);
+}
 }
 
 ::view-transition-old(slide-it) {
-  animation:
-    180ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-    600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+animation:
+180ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
 }
 ::view-transition-new(slide-it) {
-  animation:
-    420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-    600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+animation:
+420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
 }
 
 .sample-transition {
-  view-transition-name: slide-it;
+view-transition-name: slide-it;
 }
 
 .admin-input {
-  @apply border-2 rounded-xl py-2 px-4 focus:shadow-lg hover:shadow-md transition-shadow ease-in-out duration-300;
+@apply border-2 rounded-xl py-2 px-4 focus:shadow-lg hover:shadow-md transition-shadow ease-in-out duration-300;
 }
 
 .admin-submit {
-  @apply bg-blue-500 text-white py-2 px-4 hover:bg-white border-2 border-blue-500 hover:text-blue-500 rounded-lg
+@apply bg-blue-500 text-white py-2 px-4 hover:bg-white border-2 border-blue-500 hover:text-blue-500 rounded-lg
 transition-colors ease-in-out duration-300;
 }
 
 .admin-delete {
-  @apply bg-red-500 text-white py-2 px-4 hover:bg-white border-2 border-red-500 hover:text-red-500 rounded-lg
+@apply bg-red-500 text-white py-2 px-4 hover:bg-white border-2 border-red-500 hover:text-red-500 rounded-lg
 transition-colors ease-in-out duration-300;
 }
 
 .admin-checkbox:before {
-  content: "";
-  display: block;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  @apply bg-white border-[2px] transition-colors ease-in-out duration-300;
+content: "";
+display: block;
+width: 1rem;
+height: 1rem;
+border-radius: 50%;
+@apply bg-white border-[2px] transition-colors ease-in-out duration-300;
 }
 
 .admin-checkbox {
-  @apply flex flex-row gap-2 items-center cursor-pointer select-none;
+@apply flex flex-row gap-2 items-center cursor-pointer select-none;
 }
 
 input[type="checkbox"]:checked + .admin-checkbox:before {
-  @apply bg-blue-500 border-blue-500;
+@apply bg-blue-500 border-blue-500;
 }
 
 .search-input {
-  @apply admin-input;
+@apply admin-input;
 }
 
 @keyframes modal-appear {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
+from {
+opacity: 0;
+transform: scale(0.5);
+}
 
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+to {
+opacity: 1;
+transform: scale(1);
+}
 }
 
 @keyframes modal-dissappear {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
+from {
+opacity: 1;
+transform: scale(1);
+}
 
-  99% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
+99% {
+opacity: 0;
+transform: scale(0.5);
+}
 
-  to {
-    opacity: 0;
-    display: none;
-  }
+to {
+opacity: 0;
+display: none;
+}
 }
 
 @keyframes modal-overlay-appear {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+from {
+opacity: 0;
+}
+to {
+opacity: 1;
+}
 }
 
 @keyframes modal-overlay-dissappear {
-  from {
-    opacity: 1;
-  }
+from {
+opacity: 1;
+}
 
-  99% {
-    opacity: 0;
-  }
+99% {
+opacity: 0;
+}
 
-  to {
-    opacity: 0;
-    display: none;
-  }
+to {
+opacity: 0;
+display: none;
+}
 }
 
 .modal-overlay {
-  @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 opacity-0;
+@apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 opacity-0;
 }
 
 .modal-overlay[data-open="initial"] {
-  display: none;
+display: none;
 }
 
 .modal-overlay[data-open="true"] {
-  animation: 300ms modal-overlay-appear ease-in-out forwards;
+animation: 300ms modal-overlay-appear ease-in-out forwards;
 }
 
 .modal-overlay[data-open="false"] {
-  animation-duration: 300ms;
-  animation-name: modal-overlay-dissappear;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+animation-duration: 300ms;
+animation-name: modal-overlay-dissappear;
+animation-timing-function: ease-in-out;
+animation-fill-mode: forwards;
 }
 
 .modal {
-  @apply fixed top-[calc(50vh-10rem)] left-[calc(50vw-10rem)] bg-white rounded-xl w-[20rem] scale-0 flex flex-col;
+@apply fixed top-[calc(50vh-10rem)] left-[calc(50vw-10rem)] bg-white rounded-xl w-[20rem] scale-0 flex flex-col;
 }
 
 .modal[data-open="initial"] {
-  display: none;
+display: none;
 }
 
 .modal[data-open="false"] {
-  animation-duration: 300ms;
-  animation-name: modal-dissappear;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+animation-duration: 300ms;
+animation-name: modal-dissappear;
+animation-timing-function: ease-in-out;
+animation-fill-mode: forwards;
 }
 
 .modal[data-open="true"] {
-  animation-duration: 300ms;
-  animation-delay: 100ms;
-  animation-name: modal-appear;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+animation-duration: 300ms;
+animation-delay: 100ms;
+animation-name: modal-appear;
+animation-timing-function: ease-in-out;
+animation-fill-mode: forwards;
 }
 
 [data-tooltip] {
-  @apply relative cursor-pointer;
+@apply relative cursor-pointer;
 }
 
 [data-tooltip]:after {
-  @apply absolute left-1/2 -translate-x-1/2 opacity-0 scale-50 transition-all ease-in-out duration-300 invisible;
+@apply absolute left-1/2 -translate-x-1/2 opacity-0 scale-50 transition-all ease-in-out duration-300 invisible;
 }
 
 [data-tooltip]:after {
-  content: attr(data-tooltip);
-  @apply bg-black/50 whitespace-nowrap px-2 py-1 text-white text-sm bottom-[calc(100%+0.5rem)] rounded-full;
+content: attr(data-tooltip);
+@apply bg-black/50 whitespace-nowrap px-2 py-1 text-white text-sm bottom-[calc(100%+0.5rem)] rounded-full;
 }
 
 [data-tooltip]:hover:after {
-  @apply scale-100 opacity-100 transition-all ease-in-out duration-300 visible;
+@apply scale-100 opacity-100 transition-all ease-in-out duration-300 visible;
 }

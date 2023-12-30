@@ -1,0 +1,61 @@
+package categories_admin_templates
+
+import "github.com/w1png/htmx-template/templates/components"
+import "github.com/w1png/htmx-template/models"
+import "fmt"
+
+templ AddCategoryForm(categories []*models.Category) {
+	<form
+		class="h-fit w-[18rem] border-2 rounded-xl p-4 flex flex-col gap-2"
+		id="add_edit_category_form"
+		hx-indicator="#add_category_loading"
+		hx-target="#category_list"
+		hx-target-error="#add_category_error"
+		hx-post="/admin/api/categories"
+		hx-swap="afterbegin"
+		hx-encoding="multipart/form-data"
+		hx-on::after-request="ResetImageAndFormOnSubmit(event, this)"
+	>
+		<p class="text-xl">Добавить категорию</p>
+		@components.AdminImageInput("")
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="name"
+			id="name"
+			placeholder="Название"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="slug"
+			id="slug"
+			placeholder="Ссылка"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="tags"
+			id="tags"
+			placeholder="Теги"
+			required
+		/>
+		<select
+			class="admin-input h-10 w-full appearance-none"
+			name="parent"
+			id="parent"
+		>
+			<option value="0">Нет</option>
+			for _, category := range categories {
+				<option value={ fmt.Sprintf("%d", category.ID) }>{ category.Name }</option>
+			}
+		</select>
+		<p class="text-sm text-red-400" id="add_category_error"></p>
+		@components.Loading("add_category_loading")
+		<button class="admin-submit h-10 w-full" type="submit" data-loading-disable>
+			Добавить
+		</button>
+	</form>
+}
