@@ -1,0 +1,108 @@
+package admin_products_templates
+
+import "github.com/w1png/htmx-template/templates/components"
+import "github.com/w1png/htmx-template/models"
+import "fmt"
+
+templ EditProductForm(product *models.Product, categories []*models.Category, stock_types []models.StockType) {
+	<form
+		class="h-fit w-[18rem] border-2 rounded-xl p-4 flex flex-col gap-2"
+		id="add_edit_product_form"
+		hx-indicator="#add_product_loading"
+		hx-target="this"
+		hx-target-error="#add_product_error"
+		hx-put={ fmt.Sprintf("/admin/api/products/%d", product.ID) }
+		hx-swap="outerHTML"
+		hx-encoding="multipart/form-data"
+		hx-on::after-request="ResetImagesAndFormOnSubmit(event, this)"
+	>
+		<p class="text-xl">Редактировать товар</p>
+		@components.AdminMultipleImageInput(product.Images)
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="name"
+			id="name"
+			value={ product.Name }
+			placeholder="Название"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="slug"
+			id="slug"
+			value={ product.Slug }
+			placeholder="Ссылка"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="tags"
+			id="tags"
+			value={ product.Tags }
+			placeholder="Теги"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="number"
+			name="price"
+			id="price"
+			value={ fmt.Sprintf("%d", product.Price) }
+			placeholder="Цена"
+			required
+		/>
+		<div class="w-full h-10 relative">
+			<input
+				class="admin-input h-10 w-full"
+				type="number"
+				name="discount_price"
+				id="discount_price"
+				value={ fmt.Sprintf("%d", product.DiscountPrice) }
+				placeholder="Цена со скидкой"
+				required
+			/>
+			<div class="absolute right-2 top-1/2 -translate-y-1/2 overflow-visible">
+				<div class="w-4 h-4 hover:scale-110 transition-transform duratoin-300 ease-in-out" data-tooltip="-1 = без скидки">
+					<img src="/static/icons/info.svg" class="w-full h-full"/>
+				</div>
+			</div>
+		</div>
+		@components.MarkdownTextArea(
+		"description",
+		"description",
+    product.Description,
+		"Описание",
+		)
+		<select
+			class="admin-input h-10 w-full appearance-none"
+			name="category"
+			id="category"
+		>
+			<option value="0">Нет</option>
+			for _, category := range categories {
+				<option value={ fmt.Sprintf("%d", category.ID) } selected?={ product.CategoryId == category.ID }>{ category.Name }</option>
+			}
+		</select>
+		<select
+			class="admin-input h-10 w-full appearance-none"
+			name="stock_type"
+			id="stock_type"
+		>
+			for _, stock_type := range stock_types {
+				<option value={ fmt.Sprintf("%d", stock_type) } selected?={ product.StockType == stock_type }>{ stock_type.ToString() }</option>
+			}
+		</select>
+		@components.AdminCheckbox("Включен", "is_enabled", "is_enabled", "true", product.IsEnabled)
+		<p class="text-sm text-red-400" id="add_product_error"></p>
+		@components.Loading("add_product_loading")
+		<button class="admin-submit h-10 w-full" type="submit" data-loading-disable>
+			Сохранить
+		</button>
+		<button class="admin-delete h-10 w-full" type="button" hx-get="/admin/api/products/add" data-loading-disable>
+			Отмена
+		</button>
+	</form>
+}

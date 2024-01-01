@@ -55,7 +55,7 @@ templ CategoryEdit(category *models.Category, categories []*models.Category) {
 				<option value={ fmt.Sprintf("%d", category.ID) } selected?={ category.ParentId == category.ID }>{ category.Name }</option>
 			}
 		</select>
-		@components.AdminCheckbox("is_enabled", "is_enabled", "true", category.IsEnabled)
+		@components.AdminCheckbox("Отображается", "is_enabled", "is_enabled", "true", category.IsEnabled)
 		<p class="text-sm text-red-400" id="add_category_error"></p>
 		@components.Loading("add_category_loading")
 		<button class="admin-submit h-10 w-full" type="submit" data-loading-disable>

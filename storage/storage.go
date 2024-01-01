@@ -28,6 +28,18 @@ type Storage interface {
 	GetCategoriesByNameFuzzy(name string, offset, limit int) ([]*models.Category, error)
 	UpdateCategory(category *models.Category) error
 	DeleteCategoryById(id uint) error
+
+	CreateProduct(product *models.Product) error
+	GetProductById(id uint) (*models.Product, error)
+	GetProductBySlug(slug string) (*models.Product, error)
+	GetAllProducts() ([]*models.Product, error)
+	GetProducts(offset, limit int) ([]*models.Product, error)
+	GetProductsCount() (int, error)
+	GetAllProductsByNameFuzzy(name string) ([]*models.Product, error)
+	GetProductsByNameFuzzy(name string, offset, limit int) ([]*models.Product, error)
+	GetProductsByTags(search_tag string, offset, limit int) ([]*models.Product, error)
+	UpdateProduct(product *models.Product) error
+	DeleteProductById(id uint) error
 }
 
 var StorageInstance Storage

@@ -40,7 +40,7 @@ templ AddUserForm() {
 			placeholder="Повтор пароля"
 			required
 		/>
-		@components.AdminCheckbox("is_admin", "is_admin", "true", false)
+		@components.AdminCheckbox("Администратор", "is_admin", "is_admin", "true", false)
 		<p class="text-sm text-red-400" id="add_user_error"></p>
 		@components.Loading("add_user_loading")
 		<button class="admin-submit h-10 w-full" type="submit" data-loading-disable>

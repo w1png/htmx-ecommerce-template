@@ -41,7 +41,7 @@ templ UserEdit(user *models.User) {
 			placeholder="Повтор пароля"
 			required
 		/>
-		@components.AdminCheckbox("is_admin", "is_admin", "true", user.IsAdmin)
+		@components.AdminCheckbox("Администратор", "is_admin", "is_admin", "true", user.IsAdmin)
 		<p class="text-sm text-red-400" id="add_user_error"></p>
 		@components.Loading("add_user_loading")
 		<button class="admin-submit" type="submit" hx-put={ fmt.Sprintf("/admin/api/users/%d", user.ID) } data-loading-disable>

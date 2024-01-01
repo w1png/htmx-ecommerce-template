@@ -1,0 +1,79 @@
+package admin_products_templates
+
+import "github.com/w1png/htmx-template/templates/components"
+import "fmt"
+import "github.com/w1png/htmx-template/templates/scripts"
+import "github.com/w1png/htmx-template/models"
+
+templ delete_product_confirmation_modal(product_id uint) {
+	@components.Modal(get_modal_id(product_id)) {
+		<div class="p-4 flex flex-col items-center justify-center gap-4">
+			<p>
+				Вы уверены, что хотите удалить товар?
+			</p>
+			<div class="flex flex-row gap-2 justify-center">
+				<button
+					class="admin-delete"
+					hx-delete={ fmt.Sprintf("/admin/api/products/%d", product_id) }
+					hx-swap="outerHTML"
+					onclick={ scripts.CloseModal(get_modal_id(product_id)) }
+				>Удалить</button>
+				<button class="admin-submit" onclick={ scripts.CloseModal(get_modal_id(product_id)) }>
+					Отмена
+				</button>
+			</div>
+		</div>
+	}
+}
+
+func get_modal_id(product_id uint) string {
+	return fmt.Sprintf("delete_product_confirmation_%d", product_id)
+}
+
+templ bare_product(product *models.Product, next_page int, is_last bool) {
+	<div
+		class="flex flex-row h-16 w-full items-center rounded-xl border-2 px-4"
+		hx-target-error={ fmt.Sprintf("#product_error_%d", product.ID) }
+		hx-indicator={ fmt.Sprintf("#product_loading_%d", product.ID) }
+		hx-target="this"
+		hx-swap="outerHTML"
+		hx-get={ fmt.Sprintf("/admin/api/products/%d", product.ID) }
+		hx-trigger={ fmt.Sprintf("product_saved_%d from:body", product.ID) }
+	>
+		@delete_product_confirmation_modal(product.ID)
+		if is_last {
+			<span
+				class="opacity-0 h-0 w-0"
+				hx-get={ fmt.Sprintf("/admin/api/products/page/%d", next_page) }
+				hx-target="#product_list"
+				hx-target-error="#pagination_error"
+				hx-swap="beforeend"
+				hx-trigger="revealed"
+				hx-indicator="#pagination_loading"
+			></span>
+		}
+		<div class="flex flex-row gap-2 w-1/2 items-center">
+			if len(product.Images) != 0 {
+				<img class="h-[1.25rem] w-[1.25rem]" src={ fmt.Sprintf("/static/images/%s", product.Images[0]) }/>
+			}
+			<p class="w-[calc(100%-2.5rem)] text-xl truncate">{ product.Name }</p>
+		</div>
+		@components.Loading(fmt.Sprintf("product_loading_%d", product.ID))
+		@components.AdminEditDeleteButtons(
+		"#add_edit_product_form",
+		fmt.Sprintf("#product_error_%d", product.ID),
+		fmt.Sprintf("#product_loading_%d", product.ID),
+		fmt.Sprintf("/admin/api/products/%d/edit", product.ID),
+		get_modal_id(product.ID),
+		scrollToAddProductForm(),
+		)
+	</div>
+}
+
+templ Product(product *models.Product) {
+	@bare_product(product, -1, false)
+}
+
+templ lastProduct(product *models.Product, next_page int) {
+	@bare_product(product, next_page, true)
+}

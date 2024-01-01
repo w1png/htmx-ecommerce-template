@@ -1,0 +1,17 @@
+package components
+
+templ MarkdownTextArea(id, name, value, placeholder string) {
+	<div class="relative">
+		<textarea
+			class="admin-input min-h-40 w-full"
+			id={ id }
+			name={ name }
+			placeholder={ placeholder }
+		>{ value }</textarea>
+		<div class="absolute right-2 top-2 overflow-visible">
+			<div class="w-4 h-4 hover:scale-110 transition-transform duratoin-300 ease-in-out" data-tooltip="Markdown">
+				<img src="/static/icons/info.svg" class="w-full h-full"/>
+			</div>
+		</div>
+	</div>
+}

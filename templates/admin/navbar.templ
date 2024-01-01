@@ -3,7 +3,7 @@ package admin_templates
 import "github.com/w1png/htmx-template/templates/components"
 
 templ Navbar() {
-	<div class="fixed top-0 right-0 left-0 w-screen h-16 p-2">
+	<div class="fixed top-0 right-0 left-0 w-screen h-16 p-2" id="navbar" style="z-index: 4000;">
 		<div
 			class="w-full h-full bg-gray-200 rounded-xl flex items-center justify-center gap-2 z-20"
 			hx-target="#swappable_content"
@@ -13,6 +13,7 @@ templ Navbar() {
 			@components.NavbarButton("На сайт", "/api/index", "/")
 			@components.NavbarButton("Пользователи", "/admin/api/users", "/admin/users")
 			@components.NavbarButton("Категории", "/admin/api/categories", "/admin/categories")
+			@components.NavbarButton("Товары", "/admin/api/products", "/admin/products")
 		</div>
 	</div>
 }

@@ -7,6 +7,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.4.2
+	github.com/lib/pq v1.10.9
 	golang.org/x/crypto v0.17.0
 	gorm.io/driver/sqlite v1.5.4
 	gorm.io/gorm v1.25.5

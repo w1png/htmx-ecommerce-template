@@ -1,0 +1,16 @@
+package admin_products_templates
+
+import "github.com/w1png/htmx-template/models"
+
+templ Products(products []*models.Product, next_page int) {
+	if len(products) == 0 {
+		<p class="text-center">Товары отсутствуют</p>
+	}
+	for i, product := range products {
+		if len(products) == models.PRODUCTS_PER_PAGE && i == len(products)-1 && next_page != -1 {
+			@lastProduct(product, next_page)
+		} else {
+			@Product(product)
+		}
+	}
+}

@@ -60,6 +60,7 @@ func (s *HTTPServer) gatherAdminRoutes(g *echo.Group) {
 
 	g.GET("/users", admin_handlers.UserIndexHandler)
 	g.GET("/categories", admin_handlers.CategoriesIndexHandler)
+	g.GET("/products", admin_handlers.ProductsIndexHandler)
 }
 
 func (s *HTTPServer) gatherAdminApiRoutes(g *echo.Group) {
@@ -85,6 +86,15 @@ func (s *HTTPServer) gatherAdminApiRoutes(g *echo.Group) {
 	api_group.PUT("/categories/:id", admin_handlers.PutCategoryHandler)
 	api_group.GET("/categories/page/:page", admin_handlers.GetCategoriesPage)
 	api_group.POST("/categories/search", admin_handlers.SearchCategoriesHandler)
+
+	api_group.GET("/products", admin_handlers.ProductsIndexApiHandler)
+	api_group.POST("/products", admin_handlers.PostProductHandler)
+	api_group.DELETE("/products/:id", admin_handlers.DeleteProductHandler)
+	api_group.GET("/products/add", admin_handlers.GetAddProductFormHandler)
+	api_group.GET("/products/:id", admin_handlers.GetProductHandler)
+	api_group.GET("/products/page/:page", admin_handlers.GetProductsPage)
+	api_group.GET("/products/:id/edit", admin_handlers.GetEditProductFormHandler)
+	api_group.PUT("/products/:id", admin_handlers.PutProductHandler)
 
 	api_group.POST("/categories", admin_handlers.PostCategoryHandler)
 }

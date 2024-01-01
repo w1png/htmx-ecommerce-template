@@ -19,6 +19,10 @@ type Category struct {
 
 const CATEGORIES_PER_PAGE = 20
 
+func (c *Category) BeforeDelete(tx *gorm.DB) error {
+	return tx.Model(&Product{}).Where("category_id = ?", c.ID).Update("category_id", 0).Error
+}
+
 func (c Category) AfterFind(tx *gorm.DB) error {
 	if c.ParentId == 0 {
 		return nil

@@ -1,0 +1,84 @@
+package admin_products_templates
+
+import "github.com/w1png/htmx-template/templates/components"
+import "github.com/w1png/htmx-template/models"
+import "fmt"
+
+templ AddProductForm(categories []*models.Category, stock_types []models.StockType) {
+	<form
+		class="h-fit w-[18rem] border-2 rounded-xl p-4 flex flex-col gap-2"
+		id="add_edit_product_form"
+		hx-indicator="#add_product_loading"
+		hx-target="#product_list"
+		hx-target-error="#add_product_error"
+		hx-post="/admin/api/products"
+		hx-swap="afterbegin"
+		hx-encoding="multipart/form-data"
+		hx-on::after-request="ResetImagesAndFormOnSubmit(event, this)"
+	>
+		<p class="text-xl">Добавить товар</p>
+		@components.AdminMultipleImageInput([]string{})
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="name"
+			id="name"
+			placeholder="Название"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="slug"
+			id="slug"
+			placeholder="Ссылка"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="text"
+			name="tags"
+			id="tags"
+			placeholder="Теги"
+			required
+		/>
+		<input
+			class="admin-input h-10 w-full"
+			type="number"
+			name="price"
+			id="price"
+			placeholder="Цена"
+			required
+		/>
+		@components.MarkdownTextArea(
+		"description",
+		"description",
+		"",
+		"Описание",
+		)
+		<select
+			class="admin-input h-10 w-full appearance-none"
+			name="category"
+			id="category"
+		>
+			<option value="0">Нет</option>
+			for _, category := range categories {
+				<option value={ fmt.Sprintf("%d", category.ID) }>{ category.Name }</option>
+			}
+		</select>
+		<select
+			class="admin-input h-10 w-full appearance-none"
+			name="stock_type"
+			id="stock_type"
+		>
+			for _, stock_type := range stock_types {
+				<option value={ fmt.Sprintf("%d", stock_type) }>{ stock_type.ToString() }</option>
+			}
+		</select>
+		<p class="text-sm text-red-400" id="add_product_error"></p>
+		@components.Loading("add_product_loading")
+		<button class="admin-submit h-10 w-full" type="submit" data-loading-disable>
+			Добавить
+		</button>
+	</form>
+}
