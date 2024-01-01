@@ -1,7 +1,7 @@
 package components
 
 import "fmt"
-import "github.com/w1png/htmx-template/templates/scripts"
+import "github.com/w1png/go-htmx-ecommerce-template/templates/scripts"
 
 templ Modal(id string) {
 	<div data-open="initial" id={ fmt.Sprintf("overlay_%s", id) } class="modal-overlay" onclick={ scripts.CloseModal(id) }></div>

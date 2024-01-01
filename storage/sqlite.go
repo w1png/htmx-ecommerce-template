@@ -3,9 +3,9 @@ package storage
 import (
 	"fmt"
 
-	"github.com/w1png/htmx-template/config"
-	"github.com/w1png/htmx-template/errors"
-	"github.com/w1png/htmx-template/models"
+	"github.com/w1png/go-htmx-ecommerce-template/config"
+	"github.com/w1png/go-htmx-ecommerce-template/errors"
+	"github.com/w1png/go-htmx-ecommerce-template/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

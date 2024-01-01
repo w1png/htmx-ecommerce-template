@@ -1,4 +1,4 @@
-module github.com/w1png/htmx-template
+module github.com/w1png/go-htmx-ecommerce-template
 
 go 1.21.5
 

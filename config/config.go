@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/w1png/htmx-template/errors"
+	"github.com/w1png/go-htmx-ecommerce-template/errors"
 )
 
 var ConfigInstance *Config

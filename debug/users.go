@@ -1,8 +1,8 @@
 package debug
 
 import (
-	"github.com/w1png/htmx-template/models"
-	"github.com/w1png/htmx-template/storage"
+	"github.com/w1png/go-htmx-ecommerce-template/models"
+	"github.com/w1png/go-htmx-ecommerce-template/storage"
 )
 
 func InitFakeUsersIfLessThenN(n int) error {

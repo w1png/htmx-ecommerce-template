@@ -5,10 +5,10 @@ import (
 
 	"github.com/labstack/echo"
 	echoMiddleware "github.com/labstack/echo/middleware"
-	"github.com/w1png/htmx-template/config"
-	admin_handlers "github.com/w1png/htmx-template/handlers/admin"
-	user_handlers "github.com/w1png/htmx-template/handlers/user"
-	"github.com/w1png/htmx-template/middleware"
+	"github.com/w1png/go-htmx-ecommerce-template/config"
+	admin_handlers "github.com/w1png/go-htmx-ecommerce-template/handlers/admin"
+	user_handlers "github.com/w1png/go-htmx-ecommerce-template/handlers/user"
+	"github.com/w1png/go-htmx-ecommerce-template/middleware"
 )
 
 type HTTPServer struct {

@@ -2,8 +2,8 @@ package admin_handlers
 
 import (
 	"github.com/labstack/echo"
-	admin_templates "github.com/w1png/htmx-template/templates/admin"
-	"github.com/w1png/htmx-template/utils"
+	admin_templates "github.com/w1png/go-htmx-ecommerce-template/templates/admin"
+	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
 func AdminIndexHandler(c echo.Context) error {

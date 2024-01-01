@@ -8,11 +8,11 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
-	"github.com/w1png/htmx-template/errors"
-	"github.com/w1png/htmx-template/models"
-	"github.com/w1png/htmx-template/storage"
-	admin_users_templates "github.com/w1png/htmx-template/templates/admin/users"
-	"github.com/w1png/htmx-template/utils"
+	"github.com/w1png/go-htmx-ecommerce-template/errors"
+	"github.com/w1png/go-htmx-ecommerce-template/models"
+	"github.com/w1png/go-htmx-ecommerce-template/storage"
+	admin_users_templates "github.com/w1png/go-htmx-ecommerce-template/templates/admin/users"
+	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
 func UserIndexHandler(c echo.Context) error {

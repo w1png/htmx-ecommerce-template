@@ -4,11 +4,11 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/w1png/htmx-template/config"
-	"github.com/w1png/htmx-template/errors"
-	"github.com/w1png/htmx-template/models"
-	"github.com/w1png/htmx-template/storage"
-	"github.com/w1png/htmx-template/utils"
+	"github.com/w1png/go-htmx-ecommerce-template/config"
+	"github.com/w1png/go-htmx-ecommerce-template/errors"
+	"github.com/w1png/go-htmx-ecommerce-template/models"
+	"github.com/w1png/go-htmx-ecommerce-template/storage"
+	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
 func createDefaultAdmin() error {

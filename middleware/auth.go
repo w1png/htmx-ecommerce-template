@@ -6,9 +6,9 @@ import (
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo"
-	"github.com/w1png/htmx-template/config"
-	"github.com/w1png/htmx-template/models"
-	"github.com/w1png/htmx-template/storage"
+	"github.com/w1png/go-htmx-ecommerce-template/config"
+	"github.com/w1png/go-htmx-ecommerce-template/models"
+	"github.com/w1png/go-htmx-ecommerce-template/storage"
 )
 
 func UseAuth(next echo.HandlerFunc) echo.HandlerFunc {

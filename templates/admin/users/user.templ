@@ -1,9 +1,9 @@
 package admin_users_templates
 
-import "github.com/w1png/htmx-template/models"
-import "github.com/w1png/htmx-template/templates/components"
+import "github.com/w1png/go-htmx-ecommerce-template/models"
+import "github.com/w1png/go-htmx-ecommerce-template/templates/components"
 import "fmt"
-import "github.com/w1png/htmx-template/templates/scripts"
+import "github.com/w1png/go-htmx-ecommerce-template/templates/scripts"
 
 templ delete_user_confirmation_modal(user_id uint) {
 	@components.Modal(get_modal_id(user_id)) {

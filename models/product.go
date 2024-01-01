@@ -3,7 +3,7 @@ package models
 import (
 	"strings"
 
-	"github.com/w1png/htmx-template/gorm_types"
+	"github.com/w1png/go-htmx-ecommerce-template/gorm_types"
 	"gorm.io/gorm"
 )
 

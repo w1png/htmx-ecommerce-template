@@ -6,12 +6,12 @@ import (
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo"
-	"github.com/w1png/htmx-template/config"
-	"github.com/w1png/htmx-template/errors"
-	"github.com/w1png/htmx-template/storage"
-	admin_templates "github.com/w1png/htmx-template/templates/admin"
-	user_templates "github.com/w1png/htmx-template/templates/user"
-	"github.com/w1png/htmx-template/utils"
+	"github.com/w1png/go-htmx-ecommerce-template/config"
+	"github.com/w1png/go-htmx-ecommerce-template/errors"
+	"github.com/w1png/go-htmx-ecommerce-template/storage"
+	admin_templates "github.com/w1png/go-htmx-ecommerce-template/templates/admin"
+	user_templates "github.com/w1png/go-htmx-ecommerce-template/templates/user"
+	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
 func LoginPageApiHandler(c echo.Context) error {

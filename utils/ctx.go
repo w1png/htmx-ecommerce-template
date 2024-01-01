@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/labstack/echo"
-	"github.com/w1png/htmx-template/models"
+	"github.com/w1png/go-htmx-ecommerce-template/models"
 )
 
 type ResponseData struct {
