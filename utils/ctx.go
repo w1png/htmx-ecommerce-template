@@ -38,3 +38,15 @@ func GetUserFromContext(ctx context.Context) *models.User {
 
 	return user
 }
+
+func GetUrlFromContext(ctx context.Context) string {
+	var url string
+	urlAny := ctx.Value("url")
+	if urlAny == nil {
+		url = ""
+	} else {
+		url = urlAny.(string)
+	}
+
+	return url
+}

@@ -271,6 +271,24 @@ func (s *SqliteStorage) GetAllProducts() ([]*models.Product, error) {
 	return products, nil
 }
 
+func (s *SqliteStorage) GetEnabledProducts(offset, limit int) ([]*models.Product, error) {
+	var products []*models.Product
+	if err := s.DB.Where("is_enabled = ?", true).Offset(offset).Limit(limit).Find(&products).Error; err != nil {
+		return nil, err
+	}
+
+	return products, nil
+}
+
+func (s *SqliteStorage) GetFeaturedProducts() ([]*models.Product, error) {
+	var products []*models.Product
+	if err := s.DB.Where("is_featured = ?", true).Where("is_enabled = ?", true).Find(&products).Error; err != nil {
+		return nil, err
+	}
+
+	return products, nil
+}
+
 func (s *SqliteStorage) GetProducts(offset, limit int) ([]*models.Product, error) {
 	var products []*models.Product
 	if err := s.DB.Offset(offset).Limit(limit).Find(&products).Error; err != nil {

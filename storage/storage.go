@@ -33,6 +33,8 @@ type Storage interface {
 	GetProductById(id uint) (*models.Product, error)
 	GetProductBySlug(slug string) (*models.Product, error)
 	GetAllProducts() ([]*models.Product, error)
+	GetEnabledProducts(offset, limit int) ([]*models.Product, error)
+	GetFeaturedProducts() ([]*models.Product, error)
 	GetProducts(offset, limit int) ([]*models.Product, error)
 	GetProductsCount() (int, error)
 	GetAllProductsByNameFuzzy(name string) ([]*models.Product, error)

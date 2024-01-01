@@ -75,5 +75,5 @@ func PostLoginHandler(c echo.Context) error {
 		Path:  "/",
 	})
 
-	return utils.Render(c, admin_templates.IndexApiNavbar())
+	return utils.Render(c, admin_templates.IndexApi())
 }

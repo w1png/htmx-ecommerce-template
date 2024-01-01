@@ -1,5 +1,7 @@
 package user_templates
 
+import "github.com/w1png/htmx-template/utils"
+
 templ Index() {
 	@Base() {
 		@IndexApi()
@@ -9,7 +11,13 @@ templ Index() {
 templ IndexApi() {
 	<div class="container mx-auto h-screen p-8 mt-16 sample-transition" id="swappable_content">
 		<div class="w-full h-full border-2 rounded-xl flex flex-col justify-center items-center">
-			<h1 class="text-4xl" data-tooltip="test">Content</h1>
+			<h1 class="text-4xl">Content</h1>
 		</div>
 	</div>
+}
+
+templ IndexApiNavbar() {
+	<div class="w-screen h-screen bg-red-400"></div>
+	@Navbar(utils.GetUserFromContext(ctx))
+	@IndexApi()
 }

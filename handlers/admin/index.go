@@ -11,5 +11,5 @@ func AdminIndexHandler(c echo.Context) error {
 }
 
 func AdminApiIndexHandler(c echo.Context) error {
-	return utils.Render(c, admin_templates.IndexApiNavbar())
+	return utils.Render(c, admin_templates.IndexApi())
 }

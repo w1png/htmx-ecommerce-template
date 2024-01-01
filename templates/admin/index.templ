@@ -1,6 +1,7 @@
 package admin_templates
 
 templ IndexApi() {
+	@Navbar()
 	<div class="container mx-auto h-screen p-8 mt-16 sample-transition" id="swappable_content">
 		<div class="w-full h-full border-2 rounded-xl flex justify-center items-center">
 			<h1 class="text-4xl">Admin panel</h1>
@@ -12,9 +13,4 @@ templ Index() {
 	@Base() {
 		@IndexApi()
 	}
-}
-
-templ IndexApiNavbar() {
-	@Navbar()
-	@IndexApi()
 }
