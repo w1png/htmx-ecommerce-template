@@ -14,8 +14,6 @@ templ Navbar(user *models.User) {
 			@components.NavbarButton("Главная", "/api/index", "/")
 			if user != nil && user.IsAdmin {
 				@components.NavbarButton("Админ панель", "/admin/api/index", "/admin")
-			} else {
-				@components.NavbarButton("Вход", "/api/admin_login", "/admin_login")
 			}
 		</div>
 	</div>
