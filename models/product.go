@@ -51,6 +51,7 @@ type Product struct {
 	Category      Category               `gorm:"foreignKey:CategoryId"`
 	Images        gorm_types.StringArray `gorm:"type:text[]"`
 	IsEnabled     bool
+	IsFeatured    bool
 }
 
 func NewProduct(
@@ -76,5 +77,6 @@ func NewProduct(
 		CategoryId:    category_id,
 		Images:        images,
 		IsEnabled:     false,
+		IsFeatured:    false,
 	}
 }

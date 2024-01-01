@@ -96,6 +96,7 @@ templ EditProductForm(product *models.Product, categories []*models.Category, st
 			}
 		</select>
 		@components.AdminCheckbox("Включен", "is_enabled", "is_enabled", "true", product.IsEnabled)
+		@components.AdminCheckbox("На главной", "is_featured", "is_featured", "true", product.IsFeatured)
 		<p class="text-sm text-red-400" id="add_product_error"></p>
 		@components.Loading("add_product_loading")
 		<button class="admin-submit h-10 w-full" type="submit" data-loading-disable>

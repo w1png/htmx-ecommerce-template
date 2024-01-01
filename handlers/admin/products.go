@@ -194,6 +194,7 @@ func PutProductHandler(c echo.Context) error {
 	slug := c.FormValue("slug")
 	tags := c.FormValue("tags")
 	is_enabled := c.FormValue("is_enabled") == "true"
+	is_featured := c.FormValue("is_featured") == "true"
 	price, err := strconv.Atoi(c.FormValue("price"))
 	if err != nil {
 		return c.String(http.StatusBadRequest, "Неверный запрос")
@@ -249,6 +250,7 @@ func PutProductHandler(c echo.Context) error {
 
 	product.Slug = slug
 	product.IsEnabled = is_enabled
+	product.IsFeatured = is_featured
 	product.Name = name
 	product.CategoryId = uint(category_id)
 	product.Description = description
