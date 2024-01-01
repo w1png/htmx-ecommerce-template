@@ -56,7 +56,7 @@ templ bare_product(product *models.Product, next_page int, is_last bool) {
 			if len(product.Images) != 0 {
 				<img class="h-[1.25rem] w-[1.25rem]" src={ fmt.Sprintf("/static/images/%s", product.Images[0]) }/>
 			}
-			<p class="w-[calc(100%-2.5rem)] text-xl truncate">{ product.Name }</p>
+			<p class={ "w-[calc(100%-2.5rem)] text-xl truncate", templ.KV("text-yellow-600", product.IsFeatured), templ.KV("text-gray-400", !product.IsEnabled) }>{ product.Name }</p>
 		</div>
 		@components.Loading(fmt.Sprintf("product_loading_%d", product.ID))
 		@components.AdminEditDeleteButtons(
