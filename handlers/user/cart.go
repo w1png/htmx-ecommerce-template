@@ -1,7 +1,6 @@
 package user_handlers
 
 import (
-	"fmt"
 	"net/http"
 	"reflect"
 	"strconv"
@@ -23,6 +22,13 @@ func GetCartHandler(c echo.Context) error {
 			cart_products = append(cart_products, cart_product)
 		}
 	}
+
+	for _, cart_product := range cart_products {
+		if cart_product.Product.StockType == models.StockTypeOutOfStock {
+			cart_product.Quantity = 0
+		}
+	}
+
 	return utils.Render(c, user_templates.CartProducts(cart_products))
 }
 
@@ -34,6 +40,18 @@ func ChangeCartProductQuantityHandler(c echo.Context) error {
 		return err
 	}
 
+	product, err := storage.StorageInstance.GetProductById(uint(product_id))
+	if err != nil {
+		if reflect.TypeOf(err) == reflect.TypeOf(&errors.ObjectNotFoundError{}) {
+			return c.String(http.StatusNotFound, "Товар не найден")
+		}
+		log.Error(err)
+		return err
+	}
+	if product.StockType == models.StockTypeOutOfStock {
+		return c.String(http.StatusBadRequest, "Товара нет в наличии")
+	}
+
 	cart := utils.GetCartFromContext(c.Request().Context())
 
 	cart_product, err := storage.StorageInstance.GetCartProductByProductIdAndCartID(uint(product_id), cart.ID)
@@ -43,14 +61,6 @@ func ChangeCartProductQuantityHandler(c echo.Context) error {
 	}
 
 	if cart_product == nil {
-		product, err := storage.StorageInstance.GetProductById(uint(product_id))
-		if err != nil {
-			if reflect.TypeOf(err) == reflect.TypeOf(&errors.ObjectNotFoundError{}) {
-				return c.String(http.StatusNotFound, "Товар не найден")
-			}
-			log.Error(err)
-			return err
-		}
 
 		cart_product = models.NewCartProduct(
 			product.ID,
@@ -62,9 +72,6 @@ func ChangeCartProductQuantityHandler(c echo.Context) error {
 			0,
 		)
 	}
-
-	fmt.Println(1)
-	fmt.Printf("Cart product: %+v\n", cart_product)
 
 	if should_decrease && cart_product.Quantity > 0 {
 		cart_product.Quantity--
@@ -81,8 +88,6 @@ func ChangeCartProductQuantityHandler(c echo.Context) error {
 			return err
 		}
 	}
-
-	fmt.Println(2)
 
 	return utils.Render(c, components.AddToCartButton(cart_product.Product.ID, cart_product.Quantity))
 }
