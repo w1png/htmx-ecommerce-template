@@ -17,7 +17,13 @@ import (
 )
 
 func GetCartHandler(c echo.Context) error {
-	return utils.Render(c, user_templates.CartProducts(utils.GetCartFromContext(c.Request().Context()).Products))
+	var cart_products []*models.CartProduct
+	for _, cart_product := range utils.GetCartFromContext(c.Request().Context()).Products {
+		if cart_product.Quantity != 0 {
+			cart_products = append(cart_products, cart_product)
+		}
+	}
+	return utils.Render(c, user_templates.CartProducts(cart_products))
 }
 
 func ChangeCartProductQuantityHandler(c echo.Context) error {

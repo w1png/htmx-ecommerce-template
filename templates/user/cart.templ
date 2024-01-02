@@ -17,11 +17,6 @@ templ Cart() {
 				X
 			</button>
 		</div>
-		if len(utils.GetCartFromContext(ctx).Products) == 0 {
-			<div class="flex flex-col h-full w-full">
-				<p>Корзина пуста</p>
-			</div>
-		}
 		<div class="flex flex-col h-full w-full" id="cart_products">
 			@CartProducts(utils.GetCartFromContext(ctx).Products)
 		</div>
@@ -45,6 +40,11 @@ templ CartProduct(cart_product *models.CartProduct) {
 }
 
 templ CartProducts(cart_products []*models.CartProduct) {
+	if len(cart_products) == 0 {
+		<div class="flex flex-col h-full w-full">
+			<p>Корзина пуста</p>
+		</div>
+	}
 	for _, cart_product := range cart_products {
 		@CartProduct(cart_product)
 	}
