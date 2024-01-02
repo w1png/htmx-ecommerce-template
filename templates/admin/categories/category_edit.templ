@@ -52,7 +52,9 @@ templ CategoryEdit(category *models.Category, categories []*models.Category) {
 		>
 			<option value="0">Нет</option>
 			for _, cat := range categories {
-				<option value={ fmt.Sprintf("%d", cat.ID) } selected?={ category.ParentId == cat.ID }>{ cat.Name }</option>
+				if cat.ID != category.ID {
+					<option value={ fmt.Sprintf("%d", cat.ID) } selected?={ category.ParentId == cat.ID }>{ cat.Name }</option>
+				}
 			}
 		</select>
 		@components.AdminCheckbox("Отображается", "is_enabled", "is_enabled", "true", category.IsEnabled)
