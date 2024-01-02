@@ -1,23 +1,18 @@
 package user_templates
 
-import "github.com/w1png/go-htmx-ecommerce-template/utils"
+import "github.com/w1png/go-htmx-ecommerce-template/models"
 
-templ Index() {
+templ Index(featured_products []*models.Product) {
 	@Base() {
-		@IndexApi()
+		@IndexApi(featured_products)
 	}
 }
 
-templ IndexApi() {
-	<div class="container mx-auto h-screen p-8 mt-16 sample-transition" id="swappable_content">
+templ IndexApi(featured_products []*models.Product) {
+	@Navbar()
+	<div class="container mx-auto h-screen p-8 mt-16 sample-transition">
 		<div class="w-full h-full border-2 rounded-xl flex flex-col justify-center items-center">
 			<h1 class="text-4xl">Content</h1>
 		</div>
 	</div>
-}
-
-templ IndexApiNavbar() {
-	<div class="w-screen h-screen bg-red-400"></div>
-	@Navbar(utils.GetUserFromContext(ctx))
-	@IndexApi()
 }

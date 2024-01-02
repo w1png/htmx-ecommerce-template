@@ -1,0 +1,31 @@
+package user_templates
+
+import "github.com/w1png/go-htmx-ecommerce-template/models"
+import "github.com/w1png/go-htmx-ecommerce-template/templates/components"
+
+templ CategoryApi(category *models.Category) {
+	@Navbar()
+	<div
+		class="container mx-auto h-screen mt-16 sample-transition flex flex-col gap-10"
+		hx-target="body"
+		hx-swap="outerHTML transition:true"
+		hx-boost="true"
+	>
+		<div class="w-full flex flex-row items-stretch gap-2">
+			for _, child := range category.Children {
+				@components.CategoryCard(child, "w-1/4 card-load")
+			}
+		</div>
+		<div class="w-full flex flex-row items-stretch gap-2">
+			for _, product := range category.Products {
+				@components.ProductCard(product, "w-1/4 card-load")
+			}
+		</div>
+	</div>
+}
+
+templ Category(category *models.Category) {
+	@Base() {
+		@CategoryApi(category)
+	}
+}

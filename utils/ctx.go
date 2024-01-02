@@ -28,25 +28,25 @@ func MarshalResponse(c echo.Context, data interface{}) *ResponseData {
 }
 
 func GetUserFromContext(ctx context.Context) *models.User {
-	var user *models.User
 	userAny := ctx.Value("user")
 	if userAny == nil {
-		user = nil
-	} else {
-		user = userAny.(*models.User)
+		return nil
 	}
-
-	return user
+	return userAny.(*models.User)
 }
 
 func GetUrlFromContext(ctx context.Context) string {
-	var url string
 	urlAny := ctx.Value("url")
 	if urlAny == nil {
-		url = ""
-	} else {
-		url = urlAny.(string)
+		return ""
 	}
+	return urlAny.(string)
+}
 
-	return url
+func GetCategoriesFromContext(ctx context.Context) []*models.Category {
+	categoriesAny := ctx.Value("categories")
+	if categoriesAny == nil {
+		return nil
+	}
+	return categoriesAny.([]*models.Category)
 }

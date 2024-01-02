@@ -24,6 +24,7 @@ func NewHTTPServer() *HTTPServer {
 	server.echo.Use(echoMiddleware.Recover())
 	server.echo.Use(middleware.UseAuth)
 	server.echo.Use(middleware.UseUrl)
+	server.echo.Use(middleware.UseCategories)
 
 	server.echo.Static("/static", "static")
 
@@ -44,6 +45,8 @@ func (s *HTTPServer) gatherUserRoutes() {
 
 	s.echo.GET("/", user_handlers.IndexHandler)
 	s.echo.GET("/admin_login", user_handlers.LoginPageHandler)
+	s.echo.GET("/categories/:slug", user_handlers.CategoryHandler)
+	s.echo.GET("/products/:slug", user_handlers.ProductHandler)
 }
 
 func (s *HTTPServer) gatherUserApiRoutes() {
@@ -51,6 +54,8 @@ func (s *HTTPServer) gatherUserApiRoutes() {
 	api_group.GET("/health", user_handlers.HealthHandler)
 	api_group.GET("/index", user_handlers.IndexHandler)
 	api_group.GET("/admin_login", user_handlers.LoginPageApiHandler)
+	api_group.GET("/categories/:slug", user_handlers.CategoryApiHandler)
+	api_group.GET("/products/:slug", user_handlers.ProductApiHandler)
 
 	api_group.POST("/admin_login", user_handlers.PostLoginHandler)
 }

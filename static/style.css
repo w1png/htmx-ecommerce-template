@@ -216,3 +216,62 @@ bg-black/50 px-2 py-1 whitespace-nowrap text-white text-sm rounded-full bottom-[
 .admin-image-preview-list-item {
   @apply w-full h-full object-cover snap-center;
 }
+
+@keyframes card-load {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(0.9);
+  }
+}
+
+.card-load {
+  opacity: 0;
+  transform: scale(0.5);
+  animation-duration: 300ms;
+  animation-delay: 600ms;
+  animation-name: card-load;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.card-load:nth-child(1) {
+  animation-delay: 200ms;
+}
+.card-load:nth-child(2) {
+  animation-delay: 300ms;
+}
+.card-load:nth-child(3) {
+  animation-delay: 400ms;
+}
+.card-load:nth-child(4) {
+  animation-delay: 500ms;
+}
+
+.product-description h1 {
+  @apply text-3xl font-bold;
+}
+
+.product-description h2 {
+  @apply text-2xl font-bold;
+}
+
+.product-description h3 {
+  @apply text-xl font-bold;
+}
+
+.product-description h4 {
+  @apply text-lg font-bold;
+}
+
+.product-description ul {
+  @apply list-disc px-4;
+}
+
+.product-description ol {
+  @apply list-decimal px-6;
+}

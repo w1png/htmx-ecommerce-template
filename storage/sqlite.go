@@ -176,6 +176,33 @@ func (s *SqliteStorage) GetAllCategories() ([]*models.Category, error) {
 	return categories, nil
 }
 
+func (s *SqliteStorage) GetMainCategories() ([]*models.Category, error) {
+	var categories []*models.Category
+	if err := s.DB.Where("parent_id = 0").Find(&categories).Error; err != nil {
+		return categories, err
+	}
+
+	return categories, nil
+}
+
+func (s *SqliteStorage) GetCategoryChildren(id uint) ([]*models.Category, error) {
+	var categories []*models.Category
+	if err := s.DB.Where("parent_id = ?", id).Find(&categories).Error; err != nil {
+		return categories, err
+	}
+
+	return categories, nil
+}
+
+func (s *SqliteStorage) GetCategoryProducts(id uint) ([]*models.Product, error) {
+	var products []*models.Product
+	if err := s.DB.Where("category_id = ?", id).Find(&products).Error; err != nil {
+		return products, err
+	}
+
+	return products, nil
+}
+
 func (s *SqliteStorage) GetCategories(offset, limit int) ([]*models.Category, error) {
 	var categories []*models.Category
 	if err := s.DB.Offset(offset).Limit(limit).Find(&categories).Error; err != nil {

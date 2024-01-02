@@ -1,11 +1,10 @@
 package user_templates 
 
 import "github.com/w1png/go-htmx-ecommerce-template/templates"
-import "github.com/w1png/go-htmx-ecommerce-template/utils"
 
 templ Base() {
 	@templates.Base() {
-		@Navbar(utils.GetUserFromContext(ctx))
+		@Navbar()
 		{ children... }
 	}
 }

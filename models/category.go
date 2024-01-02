@@ -1,6 +1,8 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Category struct {
 	gorm.Model
@@ -11,8 +13,11 @@ type Category struct {
 	ImagePath string
 	Tags      string
 
-	Parent   *Category
 	ParentId uint
+	Parent   *Category `gorm:"-"`
+
+	Children []*Category `gorm:"-"`
+	Products []*Product  `gorm:"-"`
 
 	IsEnabled bool
 }
@@ -21,13 +26,6 @@ const CATEGORIES_PER_PAGE = 20
 
 func (c *Category) BeforeDelete(tx *gorm.DB) error {
 	return tx.Model(&Product{}).Where("category_id = ?", c.ID).Update("category_id", 0).Error
-}
-
-func (c Category) AfterFind(tx *gorm.DB) error {
-	if c.ParentId == 0 {
-		return nil
-	}
-	return tx.Model(&Category{}).Where("id = ?", c.ParentId).First(&c.Parent).Error
 }
 
 func NewCategory(name, slug, image_path, tags string, parent_id uint) *Category {
