@@ -50,3 +50,11 @@ func GetCategoriesFromContext(ctx context.Context) []*models.Category {
 	}
 	return categoriesAny.([]*models.Category)
 }
+
+func GetCartFromContext(ctx context.Context) *models.Cart {
+	cartAny := ctx.Value("cart")
+	if cartAny == nil {
+		return nil
+	}
+	return cartAny.(*models.Cart)
+}

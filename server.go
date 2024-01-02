@@ -25,6 +25,7 @@ func NewHTTPServer() *HTTPServer {
 	server.echo.Use(middleware.UseAuth)
 	server.echo.Use(middleware.UseUrl)
 	server.echo.Use(middleware.UseCategories)
+	server.echo.Use(middleware.UseCart)
 
 	server.echo.Static("/static", "static")
 
@@ -58,6 +59,9 @@ func (s *HTTPServer) gatherUserApiRoutes() {
 	api_group.GET("/products/:slug", user_handlers.ProductApiHandler)
 
 	api_group.POST("/admin_login", user_handlers.PostLoginHandler)
+
+	api_group.GET("/cart", user_handlers.GetCartHandler)
+	api_group.PUT("/cart/change_quantity/:product_id", user_handlers.ChangeCartProductQuantityHandler)
 }
 
 func (s *HTTPServer) gatherAdminRoutes(g *echo.Group) {

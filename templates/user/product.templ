@@ -2,12 +2,13 @@ package user_templates
 
 import "github.com/w1png/go-htmx-ecommerce-template/models"
 import "fmt"
+import "github.com/w1png/go-htmx-ecommerce-template/templates/components"
 
 script ParseProductDescription(description string) {
   document.getElementById("description").innerHTML = DOMPurify.sanitize(marked.parse(description));;
 }
 
-templ ProductApi(product *models.Product) {
+templ ProductApi(product *models.Product, cart_product *models.CartProduct) {
 	@Navbar()
 	<div
 		class="container mx-auto h-screen mt-16 py-4 sample-transition flex flex-row gap-10 overflow-x-hidden"
@@ -28,14 +29,15 @@ templ ProductApi(product *models.Product) {
 					<h3 class="text-2xl">{ fmt.Sprintf("%d", product.DiscountPrice) }₽</h3>
 				}
 			</div>
+			@components.AddToCartButton(product.ID, cart_product.Quantity)
 			<div id="description" class="product-description py-2"></div>
 			@ParseProductDescription(product.Description)
 		</div>
 	</div>
 }
 
-templ Product(product *models.Product) {
+templ Product(product *models.Product, cart_product *models.CartProduct) {
 	@Base() {
-		@ProductApi(product)
+		@ProductApi(product, cart_product)
 	}
 }

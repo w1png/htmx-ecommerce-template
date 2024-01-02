@@ -4,25 +4,60 @@ import "github.com/w1png/go-htmx-ecommerce-template/templates/components"
 import "github.com/w1png/go-htmx-ecommerce-template/utils"
 import "fmt"
 
+script ToggleNavbar() {
+  const navbar = document.getElementById("navbar");
+
+  if (navbar.classList.contains("translate-x-full")) {
+    navbar.classList.remove("translate-x-full");
+    return;
+  }
+
+  navbar.classList.add("translate-x-full");
+}
+
+templ categoriesButton() {
+	<p class="text-2xl cursor-pointer select-none hover:text-gray-600 whitespace-nowrap">Категории</p>
+}
+
 templ Navbar() {
-	<div class="fixed top-0 right-0 left-0 w-screen h-16 p-2" style="z-index: 5000;">
+	<div class="fixed top-0 right-0 left-0 w-screen h-16 bg-gray-200" style="z-index: 5000;">
 		<div
-			class="w-full h-full bg-gray-200 rounded-xl flex items-center justify-center gap-2 z-20"
+			class="container mx-auto h-full flex items-center justify-between gap-2 z-20 px-4"
 			hx-target="body"
 			hx-swap="outerHTML transition:true"
 			hx-boost="true"
 		>
-			@components.NavbarButton("Главная", "/api/index", "/")
-			if utils.GetUserFromContext(ctx) != nil && utils.GetUserFromContext(ctx).IsAdmin {
-				@components.NavbarButton("Админ панель", "/admin/api/index", "/admin")
-			}
-			@components.DropDown(components.NavbarButton("Категории", "/api/categories", "/categories"), components.Down) {
-				<div class="flex flex-col p-4 gap-2 bg-white rounded-xl border-2 overflow-y-scroll max-h-[400px] max-width-[200px]">
-					for _, category := range utils.GetCategoriesFromContext(ctx) {
-						@components.NavbarButton(category.Name, fmt.Sprintf("/api/categories/%s", category.Slug), fmt.Sprintf("/categories/%s", category.Slug))
+			<h2 class="text-3xl font-bold">HTMX Ecommerce</h2>
+			<button class="flex lg:hidden justify-end items-center grow" onclick={ ToggleNavbar() }>
+				<img class="w-8 h-8" src="/static/icons/bar.svg"/>
+			</button>
+			<div id="navbar" class="fixed lg:static top-16 lg:h-full w-[50vw] w-1/2 h-screen right-0 bg-white translate-x-full lg:translate-x-0 lg:bg-transparent p-2 lg:p-0 flex flex-col lg:flex-row items-center justify-start lg:justify-end gap-4 lg:transition-none transition-transform ease-in-out duration-300">
+				@components.NavbarButton("Главная", "/api/index", "/")
+				if utils.GetUserFromContext(ctx) != nil && utils.GetUserFromContext(ctx).IsAdmin {
+					@components.NavbarButton("Админ панель", "/admin/api/index", "/admin")
+				}
+				<span class="hidden lg:block">
+					@components.DropDown(categoriesButton(), components.Down) {
+						<div class="flex flex-col p-4 gap-2 bg-white rounded-xl border-2 overflow-y-scroll max-h-[400px] max-width-[200px]">
+							for _, category := range utils.GetCategoriesFromContext(ctx) {
+								@components.NavbarButton(category.Name, fmt.Sprintf("/api/categories/%s", category.Slug), fmt.Sprintf("/categories/%s", category.Slug))
+							}
+						</div>
 					}
-				</div>
-			}
+				</span>
+				<span class="block lg:hidden">
+					@components.Collapse(categoriesButton()) {
+						<div class="flex flex-col p-4 gap-2 rounded-xl items-center overflow-y-scroll max-h-[400px] max-width-[200px]">
+							for _, category := range utils.GetCategoriesFromContext(ctx) {
+								<span class="p-2 border-2 rounded-xl">
+									@components.NavbarButton(category.Name, fmt.Sprintf("/api/categories/%s", category.Slug), fmt.Sprintf("/categories/%s", category.Slug))
+								</span>
+							}
+						</div>
+					}
+				</span>
+			</div>
+			<button onclick="document.getElementById('cart').classList.toggle('translate-x-full')">Cart</button>
 		</div>
 	</div>
 }

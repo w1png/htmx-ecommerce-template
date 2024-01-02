@@ -45,6 +45,16 @@ type Storage interface {
 	GetProductsByTags(search_tag string, offset, limit int) ([]*models.Product, error)
 	UpdateProduct(product *models.Product) error
 	DeleteProductById(id uint) error
+
+	CreateCart(cart *models.Cart) error
+	GetCartById(id uint) (*models.Cart, error)
+	GetCartByUUID(uuid string) (*models.Cart, error)
+
+	CreateCartProduct(cartProduct *models.CartProduct) error
+	GetCartProductById(id uint) (*models.CartProduct, error)
+	GetCartProductByProductIdAndCartID(id uint, cart_id uint) (*models.CartProduct, error)
+	UpdateCartProduct(cartProduct *models.CartProduct) error
+	DeleteCartProductById(id uint) error
 }
 
 var StorageInstance Storage

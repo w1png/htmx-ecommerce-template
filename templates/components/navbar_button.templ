@@ -4,7 +4,7 @@ import "github.com/w1png/go-htmx-ecommerce-template/utils"
 
 templ NavbarButton(text, href, replace_url string) {
 	<a
-		class={ "text-2xl hover:text-gray-600 underline whitespace-nowrap", templ.KV("text-gray-500", utils.GetUrlFromContext(ctx) == href || utils.GetUrlFromContext(ctx) == replace_url) }
+		class={ "text-2xl hover:text-gray-600 whitespace-nowrap", templ.KV("underline", utils.GetUrlFromContext(ctx) == href || utils.GetUrlFromContext(ctx) == replace_url) }
 		href={ templ.SafeURL(replace_url) }
 		hx-get={ href }
 		hx-push-url={ string(templ.SafeURL(replace_url)) }
