@@ -10,6 +10,7 @@ templ Cart() {
 		hx-get="/api/cart"
 		hx-trigger="load, every 1s"
 		hx-target="#cart_products"
+		hx-swap="innerHTML"
 		id="cart"
 	>
 		<div class="h-16 w-full flex items-center justify-end">
@@ -48,4 +49,7 @@ templ CartProducts(cart_products []*models.CartProduct) {
 	for _, cart_product := range cart_products {
 		@CartProduct(cart_product)
 	}
+	<div class="text-xl">
+		{ fmt.Sprintf("%d", utils.GetCartFromContext(ctx).GetTotalPrice()) }
+	</div>
 }
