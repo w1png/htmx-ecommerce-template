@@ -10,12 +10,12 @@ script ParseProductDescription(description string) {
 templ ProductApi(product *models.Product) {
 	@Navbar()
 	<div
-		class="container mx-auto h-screen mt-16 py-4 sample-transition flex flex-row gap-10"
+		class="container mx-auto h-screen mt-16 py-4 sample-transition flex flex-row gap-10 overflow-x-hidden"
 		hx-target="body"
 		hx-swap="outerHTML transition:true"
 		hx-boost="true"
 	>
-		<div class="w-80 h-80 overflow-x-scroll flex flex-row snap-x snap-mandatory">
+		<div class="w-80 h-80 overflow-x-scroll flex flex-row snap-x snap-mandatory product-image">
 			for _, image := range product.Images {
 				<img class="object-cover snap-center w-full h-full" src={ fmt.Sprintf("/static/images/%s", image) }/>
 			}

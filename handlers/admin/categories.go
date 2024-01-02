@@ -178,6 +178,7 @@ func PutCategoryHandler(c echo.Context) error {
 	name := c.FormValue("name")
 	slug := c.FormValue("slug")
 	tags := c.FormValue("tags")
+	is_enabled := c.FormValue("is_enabled") == "true"
 	parent, err := strconv.ParseUint(c.FormValue("parent"), 10, 32)
 	if err != nil {
 		return c.String(http.StatusBadRequest, "Неверный запрос")
@@ -210,6 +211,7 @@ func PutCategoryHandler(c echo.Context) error {
 	category.Slug = slug
 	category.Tags = tags
 	category.ParentId = uint(parent)
+	category.IsEnabled = is_enabled
 
 	if image_filename != "" {
 		category.ImagePath = image_filename

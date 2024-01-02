@@ -6,19 +6,23 @@ import "github.com/w1png/go-htmx-ecommerce-template/templates/components"
 templ CategoryApi(category *models.Category) {
 	@Navbar()
 	<div
-		class="container mx-auto h-screen mt-16 sample-transition flex flex-col gap-10"
+		class={ "container mx-auto h-screen mt-20 sample-transition flex flex-col gap-10", templ.KV("items-center justify-center", len(category.Products) == 0 && len(category.Children) == 0) }
 		hx-target="body"
 		hx-swap="outerHTML transition:true"
 		hx-boost="true"
 	>
-		<div class="w-full flex flex-row items-stretch gap-2">
+		if len(category.Children) == 0 && len(category.Products) == 0 {
+			<p class="text-5xl font-bold">Тут ничего нет</p>
+		}
+		<h1 class="text-5xl font-bold">{ category.Name }</h1>
+		<div class="w-full grid grid-cols-5 grid-flow-row gap-4 overflow-x-scroll flex-shrink-0 snap-x snap-mandatory">
 			for _, child := range category.Children {
-				@components.CategoryCard(child, "w-1/4 card-load")
+				@components.CategoryCard(child, "max-w-[300px] card-load snap-center ")
 			}
 		</div>
-		<div class="w-full flex flex-row items-stretch gap-2">
+		<div class="w-full grid grid-cols-4 grid-flow-row items-stretch gap-2">
 			for _, product := range category.Products {
-				@components.ProductCard(product, "w-1/4 card-load")
+				@components.ProductCard(product, "max-w-[300px] card-load")
 			}
 		</div>
 	</div>

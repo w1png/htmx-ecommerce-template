@@ -187,7 +187,7 @@ func (s *SqliteStorage) GetMainCategories() ([]*models.Category, error) {
 
 func (s *SqliteStorage) GetCategoryChildren(id uint) ([]*models.Category, error) {
 	var categories []*models.Category
-	if err := s.DB.Where("parent_id = ?", id).Find(&categories).Error; err != nil {
+	if err := s.DB.Where("parent_id = ?", id).Where("is_enabled = true").Find(&categories).Error; err != nil {
 		return categories, err
 	}
 
@@ -196,7 +196,7 @@ func (s *SqliteStorage) GetCategoryChildren(id uint) ([]*models.Category, error)
 
 func (s *SqliteStorage) GetCategoryProducts(id uint) ([]*models.Product, error) {
 	var products []*models.Product
-	if err := s.DB.Where("category_id = ?", id).Find(&products).Error; err != nil {
+	if err := s.DB.Where("category_id = ?", id).Where("is_enabled = true").Find(&products).Error; err != nil {
 		return products, err
 	}
 

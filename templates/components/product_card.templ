@@ -4,7 +4,7 @@ import "github.com/w1png/go-htmx-ecommerce-template/models"
 import "fmt"
 
 templ ProductCard(product *models.Product, class string) {
-	<a class={ "flex flex-col rounded-xl group relative", class } hx-get={ fmt.Sprintf("/api/products/%s", product.Slug) } href={ templ.SafeURL(fmt.Sprintf("/products/%s", product.Slug)) } hx-replace-url={ fmt.Sprintf("/products/%s", product.Slug) }>
+	<a class={ fmt.Sprintf("flex flex-col rounded-xl group relative %s", class) } hx-get={ fmt.Sprintf("/api/products/%s", product.Slug) } href={ templ.SafeURL(fmt.Sprintf("/products/%s", product.Slug)) } hx-push-url={ fmt.Sprintf("/products/%s", product.Slug) }>
 		<img class="w-full aspect-square rounded-xl" src={ fmt.Sprintf("/static/images/%s", product.Images[0]) }/>
 		<p class="text-center text-xl group-hover:opacity-0 group-hover:scale-50 transition-all ease-in-out duration-300">{ product.Name }</p>
 		<div class="absolute bg-black/50 background-filter opacity-0 group-hover:opacity-100 background-blur-xl w-full aspect-square rounded-xl text-white transition-all ease-in-out duration-300">
