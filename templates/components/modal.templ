@@ -4,8 +4,8 @@ import "fmt"
 import "github.com/w1png/go-htmx-ecommerce-template/templates/scripts"
 
 templ Modal(id string) {
-	<div data-open="initial" id={ fmt.Sprintf("overlay_%s", id) } class="modal-overlay" onclick={ scripts.CloseModal(id) }></div>
-	<div data-open="initial" id={ id } class="modal">
+	<div data-open="false" id={ fmt.Sprintf("overlay_%s", id) } class="modal-overlay" onclick={ scripts.CloseModal(id) }></div>
+	<div data-open="false" id={ id } class="modal">
 		{ children... }
 	</div>
 }

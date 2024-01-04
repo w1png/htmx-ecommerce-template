@@ -76,6 +76,14 @@ body {
 transition-colors ease-in-out duration-300;
 }
 
+.input {
+  @apply admin-input;
+}
+
+.submit {
+  @apply admin-submit;
+}
+
 .admin-delete {
   @apply bg-red-500 text-white py-2 px-4 hover:bg-white border-2 border-red-500 hover:text-red-500 rounded-lg
 transition-colors ease-in-out duration-300;
@@ -102,101 +110,31 @@ input[type="checkbox"]:checked + .admin-checkbox:before {
   @apply admin-input;
 }
 
-@keyframes modal-appear {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes modal-dissappear {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  99% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-
-  to {
-    opacity: 0;
-    display: none;
-  }
-}
-
-@keyframes modal-overlay-appear {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes modal-overlay-dissappear {
-  from {
-    opacity: 1;
-  }
-
-  99% {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 0;
-    display: none;
-  }
-}
-
 .modal-overlay {
-  @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 opacity-0;
+  @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 opacity-0 invisible;
   z-index: 9000;
 }
 
-.modal-overlay[data-open="initial"] {
-  display: none;
-}
-
 .modal-overlay[data-open="true"] {
-  animation: 300ms modal-overlay-appear ease-in-out forwards;
+  @apply opacity-100 visible;
 }
 
 .modal-overlay[data-open="false"] {
-  animation-duration: 300ms;
-  animation-name: modal-overlay-dissappear;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+  @apply opacity-0 invisible;
 }
 
 .modal {
-  @apply fixed top-[calc(50vh-10rem)] left-[calc(50vw-10rem)] bg-white rounded-xl w-[20rem] scale-0 flex flex-col;
+  @apply fixed bg-white rounded-xl min-w-[20rem] max-w-[95vw] max-h-screen flex flex-col right-1/2 top-1/2
+translate-x-1/2 -translate-y-1/2 opacity-0 scale-50 transition-all ease-in-out duration-300 invisible;
   z-index: 10000;
 }
 
-.modal[data-open="initial"] {
-  display: none;
-}
-
 .modal[data-open="false"] {
-  animation-duration: 300ms;
-  animation-name: modal-dissappear;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+  @apply opacity-0 scale-50 invisible;
 }
 
 .modal[data-open="true"] {
-  animation-duration: 300ms;
-  animation-delay: 100ms;
-  animation-name: modal-appear;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+  @apply visible scale-100 opacity-100;
 }
 
 [data-tooltip] {
