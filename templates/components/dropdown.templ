@@ -25,7 +25,7 @@ func (d *Direction) GetClass() string {
 }
 
 templ DropDown(component templ.Component, direction Direction) {
-	<div class="group relative">
+	<div class="group relative dropdown">
 		@component
 		<div style="z-index: 9000;" class={ "absolute top-full left-1/2 translate-x-[-50%] flex overflow-hidden transition-all ease-in-out duration-500 max-h-0 group-hover:max-h-screen", direction.GetClass() }>
 			{ children... }

@@ -55,6 +55,13 @@ type Storage interface {
 	GetCartProductByProductIdAndCartID(id uint, cart_id uint) (*models.CartProduct, error)
 	UpdateCartProduct(cartProduct *models.CartProduct) error
 	DeleteCartProductById(id uint) error
+
+	CreateOrder(order *models.Order) error
+	GetOrderById(id uint) (*models.Order, error)
+	GetOrders(status models.OrderStatus, offset, limit int) ([]*models.Order, error)
+	UpdateOrder(order *models.Order) error
+
+	CreateOrderProduct(order_product *models.OrderProduct) error
 }
 
 var StorageInstance Storage

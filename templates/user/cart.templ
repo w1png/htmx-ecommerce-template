@@ -6,7 +6,7 @@ import "fmt"
 
 templ Cart() {
 	<div
-		class="fixed w-[50vw] h-screen right-0 top-16 bg-white border-2 z-50 translate-x-full transition-transform ease-in-out duration-300"
+		class="fixed w-[50vw] flex flex-col h-[calc(100vh-4rem)] right-0 top-16 bg-white border-2 z-50 translate-x-full transition-transform ease-in-out duration-300"
 		hx-get="/api/cart"
 		hx-trigger="load, every 1s"
 		hx-target="#cart_products"
@@ -18,19 +18,20 @@ templ Cart() {
 				X
 			</button>
 		</div>
-		<div class="flex flex-col h-full w-full" id="cart_products">
+		<div class="flex flex-col grow w-full gap-4" id="cart_products">
 			@CartProducts(utils.GetCartFromContext(ctx).Products)
 		</div>
+		<button class="submit w-full" hx-get="/api/checkout" hx-target="body" hx-swap="outerHTML transition:true">Оформить заказ</button>
 	</div>
 }
 
 templ CartProduct(cart_product *models.CartProduct) {
-	<div clas="w-full h-16 flex flex-row">
-		<img class="h-12 w-12" src={ fmt.Sprintf("/static/images/%s", cart_product.Product.Images[0]) }/>
+	<div class="w-full h-16 flex flex-row gap-4">
+		<img class="h-16 aspect-square" src={ fmt.Sprintf("/static/images/%s", cart_product.Product.Images[0]) }/>
 		<div class="flex flex-col grow">
 			<p>{ cart_product.Name }</p>
-			<div class="flex flex-row">
-				<p class={ templ.KV("line-through", cart_product.DiscountPrice == -1) }>{ fmt.Sprintf("%d", cart_product.Price) }</p>
+			<div class="flex flex-row gap-2">
+				<p class={ templ.KV("line-through", cart_product.DiscountPrice != -1) }>{ fmt.Sprintf("%d", cart_product.Price) }</p>
 				if cart_product.DiscountPrice != -1 {
 					<p>{ fmt.Sprintf("%d", cart_product.DiscountPrice) }</p>
 				}

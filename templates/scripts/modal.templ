@@ -10,6 +10,20 @@ script OpenModal(id string) {
 	modal.dataset.open = true
 }
 
+script OpenModalWithoutAnimation(id string) {
+  const modal = document.getElementById(id)
+  const overlay = document.getElementById("overlay_" + id)
+
+  modal.classList.remove("opacity-0");
+  modal.classList.remove("scale-50");
+
+
+  document.body.style.overflow = "hidden"
+
+  overlay.dataset.open = true
+  modal.dataset.open = true
+}
+
 script CloseModal(id string) {
 	const modal = document.getElementById(id)
 	const overlay = document.getElementById("overlay_" + id)

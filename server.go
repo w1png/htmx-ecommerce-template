@@ -48,6 +48,7 @@ func (s *HTTPServer) gatherUserRoutes() {
 	s.echo.GET("/admin_login", user_handlers.LoginPageHandler)
 	s.echo.GET("/categories/:slug", user_handlers.CategoryHandler)
 	s.echo.GET("/products/:slug", user_handlers.ProductHandler)
+	s.echo.GET("/checkout", user_handlers.CheckoutHandler)
 }
 
 func (s *HTTPServer) gatherUserApiRoutes() {
@@ -60,8 +61,13 @@ func (s *HTTPServer) gatherUserApiRoutes() {
 
 	api_group.POST("/admin_login", user_handlers.PostLoginHandler)
 
+	api_group.GET("/checkout", user_handlers.CheckoutApiHandler)
 	api_group.GET("/cart", user_handlers.GetCartHandler)
 	api_group.PUT("/cart/change_quantity/:product_id", user_handlers.ChangeCartProductQuantityHandler)
+
+	api_group.GET("/checkout/delivery_type_form", user_handlers.GetDeliveryTypeForm)
+
+	api_group.POST("/checkout", user_handlers.PostOrderHandler)
 }
 
 func (s *HTTPServer) gatherAdminRoutes(g *echo.Group) {
@@ -71,6 +77,7 @@ func (s *HTTPServer) gatherAdminRoutes(g *echo.Group) {
 	g.GET("/users", admin_handlers.UserIndexHandler)
 	g.GET("/categories", admin_handlers.CategoriesIndexHandler)
 	g.GET("/products", admin_handlers.ProductsIndexHandler)
+	g.GET("/orders", admin_handlers.OrdersIndexHandler)
 }
 
 func (s *HTTPServer) gatherAdminApiRoutes(g *echo.Group) {
@@ -107,6 +114,12 @@ func (s *HTTPServer) gatherAdminApiRoutes(g *echo.Group) {
 	api_group.PUT("/products/:id", admin_handlers.PutProductHandler)
 
 	api_group.POST("/categories", admin_handlers.PostCategoryHandler)
+
+	api_group.GET("/orders", admin_handlers.OrdersIndexApiHandler)
+	api_group.GET("/orders/:id/modal", admin_handlers.GetOrderModalHandler)
+	api_group.PUT("/orders/:id", admin_handlers.UpdateOrderStatusHandler)
+	api_group.GET("/orders/:id/status", admin_handlers.GetOrderStatusHandler)
+	api_group.GET("/orders/page/:page", admin_handlers.GetOrdersPageHandler)
 }
 
 func (s *HTTPServer) Run() error {

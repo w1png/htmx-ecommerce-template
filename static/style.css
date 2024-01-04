@@ -4,20 +4,17 @@
 
 body {
   scroll-behavior: smooth;
+  @apply bg-admin-background dark:bg-admin-background-dark text-admin-text dark:text-admin-text-dark;
 }
 
 .htmx-indicator {
-  display: none;
-  opacity: 0;
-  transition: opacity 500ms ease-in;
+  @apply invisible opacity-0 transition-opacity duration-500ms ease-in-out;
 }
 .htmx-request .htmx-indicator {
-  display: block;
-  opacity: 1;
+  @apply visible opacity-100;
 }
 .htmx-request.htmx-indicator {
-  display: block;
-  opacity: 1;
+  @apply invisible opacity-0;
 }
 
 @keyframes fade-in {
@@ -68,12 +65,19 @@ body {
 }
 
 .admin-input {
-  @apply border-2 rounded-xl py-2 px-4 focus:shadow-lg hover:shadow-md transition-shadow ease-in-out duration-300;
+  @apply border-2 border-admin-accent dark:border-admin-accent-dark
+  bg-admin-background dark:bg-admin-background-dark
+  rounded-xl py-2 px-4
+  focus:shadow-lg hover:shadow-md
+  transition-shadow ease-in-out duration-300;
 }
 
 .admin-submit {
-  @apply bg-blue-500 text-white py-2 px-4 hover:bg-white border-2 border-blue-500 hover:text-blue-500 rounded-lg
-transition-colors ease-in-out duration-300;
+  @apply bg-admin-submit dark:bg-admin-submit-dark hover:bg-admin-background-dark
+  text-admin-background dark:text-admin-background-dark hover:text-admin-submit dark:hover:text-admin-submit-dark
+  border-2 border-admin-submit dark:border-admin-submit-dark
+  py-2 px-4 rounded-lg
+  transition-colors ease-in-out duration-300;
 }
 
 .input {
@@ -85,25 +89,28 @@ transition-colors ease-in-out duration-300;
 }
 
 .admin-delete {
-  @apply bg-red-500 text-white py-2 px-4 hover:bg-white border-2 border-red-500 hover:text-red-500 rounded-lg
-transition-colors ease-in-out duration-300;
-}
-
-.admin-checkbox:before {
-  content: "";
-  display: block;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  @apply bg-white border-[2px] transition-colors ease-in-out duration-300;
+  @apply bg-admin-delete dark:bg-admin-delete-dark hover:bg-admin-background-dark
+  text-admin-background dark:text-admin-background-dark hover:text-admin-delete dark:hover:text-admin-delete-dark
+  border-2 border-admin-delete dark:border-admin-delete-dark
+  py-2 px-4 rounded-lg
+  transition-colors ease-in-out duration-300;
 }
 
 .admin-checkbox {
   @apply flex flex-row gap-2 items-center cursor-pointer select-none;
 }
 
+.admin-checkbox:before {
+  content: "";
+  @apply bg-admin-background dark:bg-admin-background-dark
+  h-4 w-4 block rounded-full
+  border-[2px] border-admin-accent dark:border-admin-accent-dark
+  transition-colors ease-in-out duration-300;
+}
+
 input[type="checkbox"]:checked + .admin-checkbox:before {
-  @apply bg-blue-500 border-blue-500;
+  @apply bg-admin-submit dark:bg-admin-submit-dark
+  border-admin-submit dark:border-admin-submit-dark;
 }
 
 .search-input {
@@ -212,4 +219,8 @@ bg-black/50 px-2 py-1 whitespace-nowrap text-white text-sm rounded-full bottom-[
 
 .product-description ol {
   @apply list-decimal px-6;
+}
+
+td {
+  @apply p-2 text-center;
 }

@@ -39,6 +39,8 @@ func (s *SqliteStorage) autoMigrate() error {
 		&models.Product{},
 		&models.CartProduct{},
 		&models.Cart{},
+		&models.OrderProduct{},
+		&models.Order{},
 	)
 }
 
@@ -413,7 +415,7 @@ func (s *SqliteStorage) GetCartProductById(id uint) (*models.CartProduct, error)
 	var cartProduct models.CartProduct
 	if err := s.DB.Where("id = ?", id).First(&cartProduct).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return nil, nil
+			return nil, errors.NewObjectNotFoundError(fmt.Sprintf("CartProduct with id: %d", id))
 		}
 		return nil, err
 	}
@@ -425,7 +427,7 @@ func (s *SqliteStorage) GetCartProductByProductIdAndCartID(id uint, cart_id uint
 	var cartProduct models.CartProduct
 	if err := s.DB.Where("product_id = ?", id).Where("cart_id = ?", cart_id).First(&cartProduct).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return nil, errors.NewObjectNotFoundError(fmt.Sprintf("CartProduct with id: %d", id))
+			return nil, errors.NewObjectNotFoundError(fmt.Sprintf("CartProduct with id: %d and cart id: %d", id, cart_id))
 		}
 		return nil, err
 	}
@@ -445,4 +447,46 @@ func (s *SqliteStorage) DeleteCartProductById(id uint) error {
 		return err
 	}
 	return s.DB.Unscoped().Delete(&models.CartProduct{}, id).Error
+}
+
+func (s *SqliteStorage) CreateOrder(order *models.Order) error {
+	return s.DB.Create(order).Error
+}
+
+func (s *SqliteStorage) GetOrderById(id uint) (*models.Order, error) {
+	var order *models.Order
+	if err := s.DB.Where("id = ?", id).First(&order).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.NewObjectNotFoundError(fmt.Sprintf("Order with id: %d", id))
+		}
+		return nil, err
+	}
+
+	return order, nil
+}
+
+func (s *SqliteStorage) GetOrders(status models.OrderStatus, offset, limit int) ([]*models.Order, error) {
+	var orders []*models.Order
+	tx := s.DB
+	if status != models.OrderStatusAny {
+		tx = s.DB.Where("status = ?", status)
+	}
+
+	if err := tx.Offset(offset).Limit(limit).Find(&orders).Error; err != nil {
+		return nil, err
+	}
+
+	return orders, nil
+}
+
+func (s *SqliteStorage) UpdateOrder(order *models.Order) error {
+	if _, err := s.GetOrderById(order.ID); err != nil {
+		return err
+	}
+
+	return s.DB.Save(order).Error
+}
+
+func (s *SqliteStorage) CreateOrderProduct(orderProduct *models.OrderProduct) error {
+	return s.DB.Create(orderProduct).Error
 }
