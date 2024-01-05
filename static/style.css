@@ -4,11 +4,11 @@
 
 body {
   scroll-behavior: smooth;
-  @apply bg-admin-background dark:bg-admin-background-dark text-admin-text dark:text-admin-text-dark;
+  @apply bg-admin-background text-admin-text;
 }
 
 .htmx-indicator {
-  @apply invisible opacity-0 transition-opacity duration-500ms ease-in-out;
+  @apply invisible opacity-0 transition-opacity duration-500 ease-in-out;
 }
 .htmx-request .htmx-indicator {
   @apply visible opacity-100;
@@ -65,19 +65,19 @@ body {
 }
 
 .admin-input {
-  @apply border-2 border-admin-accent dark:border-admin-accent-dark
-  bg-admin-background dark:bg-admin-background-dark
-  rounded-xl py-2 px-4
-  focus:shadow-lg hover:shadow-md
-  transition-shadow ease-in-out duration-300;
+  @apply border-2 border-admin-accent
+bg-admin-background
+rounded-xl py-2 px-4
+focus:shadow-lg hover:shadow-md
+transition-shadow ease-in-out duration-300;
 }
 
 .admin-submit {
-  @apply bg-admin-submit dark:bg-admin-submit-dark hover:bg-admin-background-dark
-  text-admin-background dark:text-admin-background-dark hover:text-admin-submit dark:hover:text-admin-submit-dark
-  border-2 border-admin-submit dark:border-admin-submit-dark
-  py-2 px-4 rounded-lg
-  transition-colors ease-in-out duration-300;
+  @apply bg-admin-submit hover:bg-admin-background
+text-admin-background hover:text-admin-submit
+border-2 border-admin-submit
+py-2 px-4 rounded-lg
+transition-colors ease-in-out duration-300;
 }
 
 .input {
@@ -89,11 +89,11 @@ body {
 }
 
 .admin-delete {
-  @apply bg-admin-delete dark:bg-admin-delete-dark hover:bg-admin-background-dark
-  text-admin-background dark:text-admin-background-dark hover:text-admin-delete dark:hover:text-admin-delete-dark
-  border-2 border-admin-delete dark:border-admin-delete-dark
-  py-2 px-4 rounded-lg
-  transition-colors ease-in-out duration-300;
+  @apply bg-admin-delete hover:bg-admin-background
+text-admin-background hover:text-admin-delete
+border-2 border-admin-delete
+py-2 px-4 rounded-lg
+transition-colors ease-in-out duration-300;
 }
 
 .admin-checkbox {
@@ -102,15 +102,15 @@ body {
 
 .admin-checkbox:before {
   content: "";
-  @apply bg-admin-background dark:bg-admin-background-dark
-  h-4 w-4 block rounded-full
-  border-[2px] border-admin-accent dark:border-admin-accent-dark
-  transition-colors ease-in-out duration-300;
+  @apply bg-admin-background
+h-4 w-4 block rounded-full
+border-[2px] border-admin-accent
+transition-colors ease-in-out duration-300;
 }
 
 input[type="checkbox"]:checked + .admin-checkbox:before {
-  @apply bg-admin-submit dark:bg-admin-submit-dark
-  border-admin-submit dark:border-admin-submit-dark;
+  @apply bg-admin-submit
+border-admin-submit;
 }
 
 .search-input {
