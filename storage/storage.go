@@ -59,6 +59,7 @@ type Storage interface {
 	CreateOrder(order *models.Order) error
 	GetOrderById(id uint) (*models.Order, error)
 	GetOrders(status models.OrderStatus, offset, limit int) ([]*models.Order, error)
+	GetOrdersCount(status models.OrderStatus) (int, error)
 	UpdateOrder(order *models.Order) error
 
 	CreateOrderProduct(order_product *models.OrderProduct) error

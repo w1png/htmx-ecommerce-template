@@ -75,3 +75,5 @@ htmx.on("htmx:afterSwap", function(evt) {
     }
   }
 });
+
+htmx.logAll();

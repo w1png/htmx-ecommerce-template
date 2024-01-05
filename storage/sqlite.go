@@ -472,11 +472,25 @@ func (s *SqliteStorage) GetOrders(status models.OrderStatus, offset, limit int) 
 		tx = s.DB.Where("status = ?", status)
 	}
 
-	if err := tx.Offset(offset).Limit(limit).Find(&orders).Error; err != nil {
+	if err := tx.Offset(offset).Limit(limit).Order("created_at DESC").Find(&orders).Error; err != nil {
 		return nil, err
 	}
 
 	return orders, nil
+}
+
+func (s *SqliteStorage) GetOrdersCount(status models.OrderStatus) (int, error) {
+	var count int64
+	tx := s.DB
+	if status != models.OrderStatusAny {
+		tx = s.DB.Where("status = ?", status)
+	}
+
+	if err := tx.Model(&models.Order{}).Count(&count).Error; err != nil {
+		return 0, err
+	}
+
+	return int(count), nil
 }
 
 func (s *SqliteStorage) UpdateOrder(order *models.Order) error {

@@ -2,6 +2,7 @@ package admin_handlers
 
 import (
 	"fmt"
+	"math"
 	"net/http"
 	"reflect"
 	"strconv"
@@ -70,10 +71,23 @@ func GetOrdersPageHandler(c echo.Context) error {
 	offset, limit := utils.GetOffsetAndLimit(page, models.ORDERS_PER_PAGE)
 	orders, err := storage.StorageInstance.GetOrders(status, offset, limit)
 	if err != nil {
+		log.Error(err)
 		return c.String(http.StatusInternalServerError, "Внутренняя ошибка сервера")
 	}
 
-	return utils.Render(c, admin_orders_templates.Orders(orders, page+1, status))
+	count, err := storage.StorageInstance.GetOrdersCount(status)
+	if err != nil {
+		log.Error(err)
+		return c.String(http.StatusInternalServerError, "Внутренняя ошибка сервера")
+	}
+
+	next_page := page + 1
+	total_pages := int(math.Ceil(float64(count) / float64(limit)))
+	if total_pages <= page {
+		next_page = -1
+	}
+
+	return utils.Render(c, admin_orders_templates.Orders(orders, next_page, status))
 }
 
 func GetOrderModalHandler(c echo.Context) error {
