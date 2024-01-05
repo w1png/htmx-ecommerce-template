@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const ORDERS_PER_PAGE = 1
+const ORDERS_PER_PAGE = 20
 
 type DeliveryType int
 
