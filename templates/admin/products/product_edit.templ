@@ -3,6 +3,7 @@ package admin_products_templates
 import "github.com/w1png/go-htmx-ecommerce-template/templates/components"
 import "github.com/w1png/go-htmx-ecommerce-template/models"
 import "fmt"
+import "github.com/w1png/go-htmx-ecommerce-template/templates/components/icons"
 
 templ EditProductForm(product *models.Product, categories []*models.Category, stock_types []models.StockType) {
 	<form
@@ -65,8 +66,8 @@ templ EditProductForm(product *models.Product, categories []*models.Category, st
 				required
 			/>
 			<div class="absolute right-2 top-1/2 -translate-y-1/2 overflow-visible">
-				<div class="w-4 h-4 hover:scale-110 transition-transform duratoin-300 ease-in-out" data-tooltip="-1 = без скидки">
-					<img src="/static/icons/info.svg" class="w-full h-full"/>
+				<div data-tooltip="-1 = без скидки">
+					@icons.Info("w-4 h-4 hover:scale-110 transition-transform duratoin-300 ease-in-out")
 				</div>
 			</div>
 		</div>

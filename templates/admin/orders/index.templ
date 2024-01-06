@@ -74,7 +74,10 @@ templ Status(status models.OrderStatus) {
 }
 
 templ delivery_type(delivery_type models.DeliveryType) {
-	<p class={ "px-4 py-2 rounded-full text-nowrap flex flex-row items-center justify-center w-fit gap-2 w-fit", delivery_type.GetColorClass() }><img class="w-6 h-6" src={ delivery_type.GetIconImg() }/>{ delivery_type.ToString() }</p>
+	<p class={ "px-4 py-2 rounded-full text-nowrap flex flex-row items-center justify-center w-fit gap-2 w-fit", delivery_type.GetColorClass() }>
+		@delivery_type.GetIconImg("w-6 h-6")
+		{ delivery_type.ToString() }
+	</p>
 }
 
 templ Order(order *models.Order, next_page int, is_last bool, status models.OrderStatus) {

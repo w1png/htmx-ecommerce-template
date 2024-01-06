@@ -60,21 +60,14 @@ templ bare_user(user *models.User, next_page int, is_last bool) {
 			hx-target-error={ fmt.Sprintf("#user_error_%d", user.ID) }
 			hx-indicator={ fmt.Sprintf("#user_loading_%d", user.ID) }
 		>
-			<button
-				class="admin-submit"
-				hx-get={ fmt.Sprintf("/admin/api/users/%d/edit", user.ID) }
-				hx-swap="outerHTML"
-				hx-target="#add_edit_user_form"
-				onclick={ scrollToAddUserForm() }
-				data-loading-disable
-			>
-				<p class="hidden lg:flex">Редактировать</p>
-				<img class="block lg:hidden h-4 aspect-square" src="/static/icons/edit.svg" alt="Редактировать"/>
-			</button>
-			<button class="admin-delete" onclick={ scripts.OpenModal(get_modal_id(user.ID)) }>
-				<p class="hidden lg:flex">Удалить</p>
-				<img class="block lg:hidden h-4 aspect-square" src="/static/icons/delete.svg" alt="Удалить"/>
-			</button>
+			@components.AdminEditDeleteButtons(
+        "#add_edit_user_form",
+        "",
+        "",
+        fmt.Sprintf("/admin/api/users/%d/edit", user.ID),
+        get_modal_id(user.ID),
+        scrollToAddUserForm(),
+			)
 		</div>
 	</div>
 }

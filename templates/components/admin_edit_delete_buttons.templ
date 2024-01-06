@@ -1,6 +1,7 @@
 package components
 
 import "github.com/w1png/go-htmx-ecommerce-template/templates/scripts"
+import "github.com/w1png/go-htmx-ecommerce-template/templates/components/icons"
 
 templ AdminEditDeleteButtons(hx_target, hx_target_error_id, hx_indicator_id, hx_get_edit_form_url, modal_id string, scroll_function templ.ComponentScript) {
 	<div
@@ -17,11 +18,11 @@ templ AdminEditDeleteButtons(hx_target, hx_target_error_id, hx_indicator_id, hx_
 			data-loading-disable
 		>
 			<p class="hidden lg:flex">Редактировать</p>
-			<img class="block lg:hidden h-4 aspect-square" src="/static/icons/edit.svg" alt="Редактировать"/>
+			@icons.Edit("block lg:hidden h-4 aspect-square")
 		</button>
 		<button class="admin-delete" onclick={ scripts.OpenModal(modal_id) }>
 			<p class="hidden lg:flex">Удалить</p>
-			<img class="block lg:hidden h-4 aspect-square" src="/static/icons/delete.svg" alt="Удалить"/>
+			@icons.Delete("block lg:hidden h-4 aspect-square")
 		</button>
 	</div>
 }

@@ -3,6 +3,8 @@ package models
 import (
 	"time"
 
+	"github.com/a-h/templ"
+	"github.com/w1png/go-htmx-ecommerce-template/templates/components/icons"
 	"gorm.io/gorm"
 )
 
@@ -42,14 +44,14 @@ func (d DeliveryType) GetColorClass() string {
 	}
 }
 
-func (d DeliveryType) GetIconImg() string {
+func (d DeliveryType) GetIconImg(class string) templ.Component {
 	switch d {
 	case DeliveryTypePickup:
-		return "/static/icons/pickup.svg"
+		return icons.Pickup(class)
 	case DeliveryTypeDelivery:
-		return "/static/icons/truck.svg"
+		return icons.Truck(class)
 	default:
-		return "/static/icons/question.svg"
+		return icons.Question(class)
 	}
 }
 

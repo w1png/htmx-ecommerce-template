@@ -3,6 +3,7 @@ package user_templates
 import "github.com/w1png/go-htmx-ecommerce-template/templates/components"
 import "github.com/w1png/go-htmx-ecommerce-template/utils"
 import "fmt"
+import "github.com/w1png/go-htmx-ecommerce-template/templates/components/icons"
 
 script ToggleNavbar() {
   const navbar = document.getElementById("navbar");
@@ -29,7 +30,7 @@ templ Navbar() {
 		>
 			<h2 class="text-3xl font-bold">HTMX Ecommerce</h2>
 			<button class="flex lg:hidden justify-end items-center grow" onclick={ ToggleNavbar() }>
-				<img class="w-8 h-8" src="/static/icons/bar.svg"/>
+				@icons.Bar("text-gray-400 w-8 h-8")
 			</button>
 			<div id="navbar" class="fixed lg:static top-16 lg:h-full w-[50vw] w-1/2 h-screen right-0 bg-white translate-x-full lg:translate-x-0 lg:bg-transparent p-2 lg:p-0 flex flex-col lg:flex-row items-center justify-start lg:justify-end gap-4 lg:transition-none transition-transform ease-in-out duration-300">
 				@components.NavbarButton("Главная", "/api/index", "/")

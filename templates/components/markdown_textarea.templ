@@ -1,5 +1,7 @@
 package components
 
+import "github.com/w1png/go-htmx-ecommerce-template/templates/components/icons"
+
 templ MarkdownTextArea(id, name, value, placeholder string) {
 	<div class="relative">
 		<textarea
@@ -9,8 +11,8 @@ templ MarkdownTextArea(id, name, value, placeholder string) {
 			placeholder={ placeholder }
 		>{ value }</textarea>
 		<div class="absolute right-2 top-2 overflow-visible">
-			<div class="w-4 h-4 hover:scale-110 transition-transform duratoin-300 ease-in-out" data-tooltip="Markdown">
-				<img src="/static/icons/info.svg" class="w-full h-full"/>
+			<div data-tooltip="Markdown">
+				@icons.Info("text-gray-400 w-4 h-4 hover:scale-110 transition-transform duratoin-300 ease-in-out")
 			</div>
 		</div>
 	</div>
