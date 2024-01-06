@@ -15,6 +15,20 @@ import (
 	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
+func GatherProductsRoutes(user_page_group *echo.Echo, user_api_group, admin_page_group, admin_api_group *echo.Group) {
+	admin_page_group.GET("/products", ProductsIndexHandler)
+	admin_api_group.GET("/products", ProductsIndexApiHandler)
+
+	admin_api_group.GET("/products", ProductsIndexApiHandler)
+	admin_api_group.POST("/products", PostProductHandler)
+	admin_api_group.DELETE("/products/:id", DeleteProductHandler)
+	admin_api_group.GET("/products/add", GetAddProductFormHandler)
+	admin_api_group.GET("/products/:id", GetProductHandler)
+	admin_api_group.GET("/products/page/:page", GetProductsPage)
+	admin_api_group.GET("/products/:id/edit", GetEditProductFormHandler)
+	admin_api_group.PUT("/products/:id", PutProductHandler)
+}
+
 func ProductsIndexHandler(c echo.Context) error {
 	products, err := storage.StorageInstance.GetProducts(utils.GetOffsetAndLimit(1, models.PRODUCTS_PER_PAGE))
 	if err != nil {

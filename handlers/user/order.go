@@ -15,6 +15,14 @@ import (
 	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
+func GatherOrdersRoutes(user_page_group *echo.Echo, user_api_group, admin_page_group, admin_api_group *echo.Group) {
+	user_page_group.GET("/checkout", CheckoutHandler)
+	user_api_group.GET("/checkout", CheckoutApiHandler)
+
+	user_api_group.GET("/checkout/delivery_type_form", GetDeliveryTypeForm)
+	user_api_group.POST("/checkout", PostOrderHandler)
+}
+
 func CheckoutHandler(c echo.Context) error {
 	return utils.Render(c, user_templates.Checkout())
 }

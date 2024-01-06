@@ -12,6 +12,11 @@ import (
 	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
+func GatherProductsRoutes(user_page_group *echo.Echo, user_api_group, admin_page_group, admin_api_group *echo.Group) {
+	user_page_group.GET("/products/:slug", ProductHandler)
+	user_api_group.GET("/products/:slug", ProductApiHandler)
+}
+
 func ProductHandler(c echo.Context) error {
 	product, err := storage.StorageInstance.GetProductBySlug(c.Param("slug"))
 	if err != nil {

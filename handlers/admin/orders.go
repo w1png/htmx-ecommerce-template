@@ -16,6 +16,17 @@ import (
 	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
+func GatherOrdersRoutes(user_page_group *echo.Echo, user_api_group, admin_page_group, admin_api_group *echo.Group) {
+	admin_page_group.GET("/orders", OrdersIndexHandler)
+	admin_api_group.GET("/orders", OrdersIndexApiHandler)
+
+	admin_api_group.GET("/orders", OrdersIndexApiHandler)
+	admin_api_group.GET("/orders/:id/modal", GetOrderModalHandler)
+	admin_api_group.PUT("/orders/:id", UpdateOrderStatusHandler)
+	admin_api_group.GET("/orders/:id/status", GetOrderStatusHandler)
+	admin_api_group.GET("/orders/page/:page", GetOrdersPageHandler)
+}
+
 func getStatusFromQueryParam(c echo.Context) (models.OrderStatus, error) {
 	statusRaw := c.QueryParam("status")
 	if statusRaw == "" {

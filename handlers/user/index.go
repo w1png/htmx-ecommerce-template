@@ -7,6 +7,11 @@ import (
 	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
+func GatherIndexHandlers(user_page_group *echo.Echo, user_api_group, admin_page_group, admin_api_group *echo.Group) {
+	user_page_group.GET("/", IndexHandler)
+	user_api_group.GET("/index", IndexApiHandler)
+}
+
 func IndexApiHandler(c echo.Context) error {
 	featured_products, err := storage.StorageInstance.GetFeaturedProducts()
 	if err != nil {

@@ -14,6 +14,13 @@ import (
 	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
+func GatherLoginRoutes(user_page_group *echo.Echo, user_api_group, admin_page_group, admin_api_group *echo.Group) {
+	user_page_group.GET("/admin_login", LoginPageHandler)
+	user_api_group.GET("/admin_login", LoginPageApiHandler)
+
+	user_api_group.POST("/admin_login", PostLoginHandler)
+}
+
 func LoginPageApiHandler(c echo.Context) error {
 	if c.Request().Context().Value("user") != nil {
 		c.Response().Header().Set("HX-Redirect", "/admin")

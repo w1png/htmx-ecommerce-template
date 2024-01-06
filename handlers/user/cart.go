@@ -15,6 +15,11 @@ import (
 	"github.com/w1png/go-htmx-ecommerce-template/utils"
 )
 
+func GatherCartRoutes(user_page_group *echo.Echo, user_api_group, admin_page_group, admin_api_group *echo.Group) {
+	user_api_group.GET("/cart", GetCartHandler)
+	user_api_group.PUT("/cart/change_quantity/:product_id", ChangeCartProductQuantityHandler)
+}
+
 func GetCartHandler(c echo.Context) error {
 	var cart_products []*models.CartProduct
 	for _, cart_product := range utils.GetCartFromContext(c.Request().Context()).Products {
