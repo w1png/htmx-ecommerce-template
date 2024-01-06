@@ -4,6 +4,7 @@ import (
 	"github.com/w1png/go-htmx-ecommerce-template/config"
 	"github.com/w1png/go-htmx-ecommerce-template/errors"
 	"github.com/w1png/go-htmx-ecommerce-template/models"
+	"github.com/w1png/go-htmx-ecommerce-template/storage/sqlite"
 )
 
 type Storage interface {
@@ -71,7 +72,7 @@ func InitStorage() error {
 	var err error
 	switch config.ConfigInstance.StorageType {
 	case "sqlite":
-		if StorageInstance, err = NewSQLiteStorage(); err != nil {
+		if StorageInstance, err = sqlite.NewSQLiteStorage(); err != nil {
 			return err
 		}
 	default:
