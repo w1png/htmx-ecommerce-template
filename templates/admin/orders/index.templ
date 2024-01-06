@@ -70,7 +70,7 @@ templ Index(orders []*models.Order, filter_status models.OrderStatus) {
 }
 
 templ Status(status models.OrderStatus) {
-	<p class={ "px-4 py-2 rounded-full text-nowrap w-fit", status.GetColorClass() }>{ status.ToString() }</p>
+	<p class={ "px-4 py-2 rounded-full text-nowrap", status.GetColorClass() }>{ status.ToString() }</p>
 }
 
 templ delivery_type(delivery_type models.DeliveryType) {
@@ -130,11 +130,11 @@ templ OrderStatusDropdown(order *models.Order) {
 		hx-swap="outerHTML"
 	>
 		@components.DropDown(Status(order.Status), components.Down) {
-			<div class="mt-4 flex flex-col gap-2 bg-white p-2 rounded-xl border-2">
+			<div class="mt-4 flex flex-col gap-2 bg-white p-2 rounded-xl border-2 justify-center">
 				for _, order_status := range models.ORDER_STATUSES_ARRAY {
 					if order_status != order.Status {
 						<span
-							class="cursor-pointer hover:scale-105 transition-transform ease-in-out duration-300"
+							class="cursor-pointer w-full hover:scale-105 transition-transform ease-in-out duration-300"
 							hx-put={ fmt.Sprintf("/admin/api/orders/%d?status=%d", order.ID, order_status) }
 							hx-swap="none"
 						>
