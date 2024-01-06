@@ -37,7 +37,7 @@ templ IndexApi(orders []*models.Order, filter_status models.OrderStatus) {
 			}
 		</div>
 		if len(orders) != 0 {
-			<div class="flex flex-col overflow-scroll w-full">
+			<div class="flex flex-col overflow-scroll w-full min-h-[80vh]">
 				<table class="w-full">
 					<thead>
 						<tr class="border-b-2 mb-2 p-2 px-4 text-nowrap">
@@ -82,7 +82,7 @@ templ delivery_type(delivery_type models.DeliveryType) {
 
 templ Order(order *models.Order, next_page int, is_last bool, status models.OrderStatus) {
 	<tr
-		class="cursor-pointer hover:bg-gray-100 p-4 select-none"
+		class="cursor-pointer hover:bg-gray-100 p-4 select-none h-16"
 		hx-get={ fmt.Sprintf("/admin/api/orders/%d/modal", order.ID) }
 		hx-target="#order_modal_parent"
 		hx-target-error={ fmt.Sprintf("order_error_#%d", order.ID) }
