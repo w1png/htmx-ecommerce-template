@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/golang-jwt/jwt"
@@ -35,6 +36,7 @@ func UseAuth(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		user_id := uint(claims["user_id"].(float64))
+		fmt.Printf("user_id: %v\n", user_id)
 		user, err := storage.StorageInstance.GetUserById(user_id)
 		if err != nil {
 			return next(c)

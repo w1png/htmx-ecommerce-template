@@ -62,7 +62,7 @@ func (s *SqliteStorage) GetEnabledProducts(offset, limit int) ([]*models.Product
 
 func (s *SqliteStorage) GetFeaturedProducts() ([]*models.Product, error) {
 	var products []*models.Product
-	if err := s.DB.Where("is_featured = ?", true).Where("is_enabled = ?", true).Find(&products).Error; err != nil {
+	if err := s.DB.Where("is_featured = ? and is_enabled = ?", true, true).Find(&products).Error; err != nil {
 		return nil, err
 	}
 
